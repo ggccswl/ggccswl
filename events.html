@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>College Events | GGCC Sahiwal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap'); body { font-family: 'Inter', sans-serif; }</style>
+</head>
+<body class="bg-gray-50">
+    <header class="sticky top-0 z-50 shadow-lg bg-white/95 py-4 px-4">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <h1 class="text-xl font-extrabold text-emerald-700 underline decoration-2">GGCC Sahiwal</h1>
+            <nav class="space-x-4 md:space-x-6 text-xs md:text-sm font-medium">
+                <a href="index.html" class="text-gray-600">Home</a>
+                <a href="academics.html" class="text-gray-600">Academics</a>
+                <a href="online-classes.html" class="text-gray-600">Online Classes</a>
+                <a href="events.html" class="text-emerald-600 font-bold border-b-2 border-emerald-600">Events</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto py-12 px-4">
+        <div class="mb-10 border-l-8 border-emerald-600 pl-6">
+            <h2 class="text-4xl font-black text-gray-900 uppercase tracking-tight">Campus Events</h2>
+            <p class="text-emerald-700 font-medium">Capturing the vibrant life at Govt. Graduate College of Commerce.</p>
+        </div>
+
+        <section class="bg-white p-6 rounded-2xl shadow-lg mb-12 border border-emerald-100">
+            <h3 class="text-lg font-bold text-gray-800 mb-4 flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+                Upload Event Photo
+            </h3>
+            <div class="grid md:grid-cols-3 gap-4">
+                <input type="text" id="eventTitle" placeholder="Event Name (e.g. Sports Gala 2026)" class="w-full border p-2 rounded-lg outline-none focus:ring-2 focus:ring-emerald-500">
+                <input type="file" id="eventFile" accept="image/*" class="text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-emerald-600 file:text-white hover:file:bg-emerald-700">
+                <button onclick="uploadEvent()" class="bg-gray-900 text-white font-bold py-2 rounded-lg hover:bg-black transition shadow-md">Add to Event Gallery</button>
+            </div>
+        </section>
+
+        <div id="eventsGallery" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            
+            <div class="group bg-white rounded-2xl shadow-md overflow-hidden transition-all hover:shadow-2xl">
+                <div class="relative">
+                    <img src="https://images.unsplash.com/photo-1508919892451-6121798e4fe3?auto=format&fit=crop&w=600&q=80" alt="Sports" class="w-full h-60 object-cover group-hover:scale-105 transition duration-500">
+                    <div class="absolute top-4 left-4 bg-emerald-600 text-white text-xs font-bold px-3 py-1 rounded-full">Athletics</div>
+                </div>
+                <div class="p-5">
+                    <h4 class="font-bold text-xl text-gray-800">Annual Sports Gala</h4>
+                    <p class="text-gray-500 text-sm mt-1">Students participating in the 100m sprint finals.</p>
+                </div>
+            </div>
+
+            <div class="group bg-white rounded-2xl shadow-md overflow-hidden transition-all hover:shadow-2xl">
+                <div class="relative">
+                    <img src="https://images.unsplash.com/photo-1475721027466-a0eb83247f35?auto=format&fit=crop&w=600&q=80" alt="Seminar" class="w-full h-60 object-cover group-hover:scale-105 transition duration-500">
+                    <div class="absolute top-4 left-4 bg-emerald-600 text-white text-xs font-bold px-3 py-1 rounded-full">Academic</div>
+                </div>
+                <div class="p-5">
+                    <h4 class="font-bold text-xl text-gray-800">Career Counseling Seminar</h4>
+                    <p class="text-gray-500 text-sm mt-1">Guest speakers sharing insights on C.A. and I.C.M.A. pathways.</p>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <footer class="bg-gray-900 text-white py-12 mt-20 text-center">
+        <p class="text-gray-400 text-sm italic">"Education is the most powerful weapon which you can use to change the world."</p>
+        <p class="mt-4 font-bold text-emerald-500 uppercase tracking-widest">GGCC Sahiwal</p>
+    </footer>
+
+    <script>
+        function uploadEvent() {
+            const title = document.getElementById('eventTitle').value;
+            const fileInput = document.getElementById('eventFile');
+            const gallery = document.getElementById('eventsGallery');
+
+            if (title === "" || fileInput.files.length === 0) {
+                alert("Please add a title and select a photo!");
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const newCard = document.createElement('div');
+                newCard.className = "group bg-white rounded-2xl shadow-md overflow-hidden transition-all hover:shadow-2xl animate-fade-in";
+                newCard.innerHTML = `
+                    <div class="relative">
+                        <img src="${e.target.result}" class="w-full h-60 object-cover group-hover:scale-105 transition duration-500">
+                        <div class="absolute top-4 left-4 bg-emerald-600 text-white text-xs font-bold px-3 py-1 rounded-full">Recent Event</div>
+                    </div>
+                    <div class="p-5">
+                        <h4 class="font-bold text-xl text-gray-800">${title}</h4>
+                        <p class="text-gray-500 text-sm mt-1">Uploaded by Administration</p>
+                    </div>
+                `;
+                gallery.prepend(newCard);
+                document.getElementById('eventTitle').value = "";
+                document.getElementById('eventFile').value = "";
+            };
+            reader.readAsDataURL(fileInput.files[0]);
+        }
+    </script>
+</body>
+</html>
