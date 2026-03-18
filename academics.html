@@ -5,135 +5,40 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Academics | GGCC Sahiwal</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="//unpkg.com/alpinejs" defer></script>
-    <style>body { font-family: 'Inter', sans-serif; }</style>
 </head>
 <body class="bg-gray-50">
-    <header class="sticky top-0 z-50 shadow-lg bg-white/95 py-4 px-4">
-        <div class="max-w-7xl mx-auto flex justify-between items-center">
-            <h1 class="text-xl font-extrabold text-emerald-700">GGCC Sahiwal</h1>
-            <nav class="space-x-6 text-sm font-medium">
-                <a href="index.html" class="text-gray-600">Home</a>
-                <a href="academics.html" class="text-emerald-600 font-bold">Academics</a>
-                <a href="conduct.html" class="text-gray-600">Rules & Facilities</a>
-                <a href="online-classes.html" class="text-gray-600">Online Classes</a>
-<a href="events.html" class="text-gray-600 hover:text-emerald-600">Events</a>
-
-            </nav>
-        </div>
-    </header>
-
-    <main class="max-w-7xl mx-auto py-8 px-4" x-data="{ activeTab: 'intermediate' }">
-        <h2 class="text-3xl font-bold text-emerald-700 mb-8">Academic Programs</h2>
+    <main class="max-w-7xl mx-auto py-12 px-4">
+        <h2 class="text-4xl font-black text-emerald-800 mb-8">Academic Programs</h2>
         
-        <div class="flex border-b mb-6">
-            <button @click="activeTab = 'intermediate'" :class="activeTab === 'intermediate' ? 'border-emerald-500 text-emerald-600' : ''" class="py-2 px-4 border-b-2">Intermediate</button>
-            <button @click="activeTab = 'degree'" :class="activeTab === 'degree' ? 'border-emerald-500 text-emerald-600' : ''" class="py-2 px-4 border-b-2">ADP / BS Programs</button>
-        </div>
-
-        <div x-show="activeTab === 'intermediate'" class="grid md:grid-cols-2 gap-4">
-            <div class="bg-white p-6 rounded shadow">
-                <h4 class="font-bold text-emerald-600 text-xl">I.Com / D.Com</h4>
-                <p class="text-gray-600 mt-2">Focused on Principles of Accounting, Economics, and Business Math.</p>
+        <div class="grid md:grid-cols-2 gap-6 mb-12">
+            <div class="bg-white p-8 rounded-2xl shadow-md border-t-4 border-emerald-500">
+                <h3 class="text-2xl font-bold mb-4">Intermediate Programs</h3>
+                <ul class="space-y-2 text-gray-600">
+                    <li>• I.Com (Accounting & Commerce)</li>
+                    <li>• ICS (Computer Science)</li>
+                    <li>• D.Com</li>
+                </ul>
             </div>
-            <div class="bg-white p-6 rounded shadow">
-                <h4 class="font-bold text-emerald-600 text-xl">ICS / FA-IT</h4>
-                <p class="text-gray-600 mt-2">Focused on Computer Science, Math, and Information Technology.</p>
-            </div>
-        </div>
-
-        <div x-show="activeTab === 'degree'" class="grid md:grid-cols-2 gap-4">
-            <div class="bg-emerald-50 p-6 rounded shadow border-t-4 border-emerald-500">
-                <h4 class="font-bold text-emerald-700 text-xl">BS-Commerce</h4>
-                <p class="text-gray-700 mt-2">8-Semester program covering Strategic Management and E-Commerce.</p>
-            </div>
-            <div class="bg-emerald-50 p-6 rounded shadow border-t-4 border-emerald-500">
-                <h4 class="font-bold text-emerald-700 text-xl">BS-Accounting & Finance</h4>
-                <p class="text-gray-700 mt-2">Advanced studies in Corporate Finance and Investment.</p>
+            <div class="bg-white p-8 rounded-2xl shadow-md border-t-4 border-emerald-500">
+                <h3 class="text-2xl font-bold mb-4">Graduate Programs (BS)</h3>
+                <ul class="space-y-2 text-gray-600">
+                    <li>• BS Commerce (4 Years)</li>
+                    <li>• BS Accounting & Finance</li>
+                    <li>• ADP (2 Years)</li>
+                </ul>
             </div>
         </div>
-<section class="mt-16 p-8 bg-emerald-900 text-white rounded-3xl shadow-2xl overflow-hidden relative">
-            <div class="absolute top-0 right-0 -mt-10 -mr-10 bg-emerald-700 w-40 h-40 rounded-full opacity-50"></div>
-            
-            <div class="relative z-10 grid md:grid-cols-2 gap-8 items-center">
-                <div>
-                    <h3 class="text-3xl font-black mb-4">Official College Prospectus 2026</h3>
-                    <p class="text-emerald-100 mb-6 leading-relaxed">
-                        Get detailed information about our faculty, fee structures, scholarship programs, and complete course outlines. Download the latest PDF for your records.
-                    </p>
-                    <div class="flex flex-col sm:flex-row gap-4">
-                        <a href="prospectus.pdf" download class="inline-flex items-center justify-center bg-white text-emerald-900 font-bold py-3 px-6 rounded-xl hover:bg-emerald-50 transition shadow-lg">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                            </svg>
-                            Download PDF (12 MB)
-                        </a>
-                        <button onclick="document.getElementById('pdfViewer').classList.toggle('hidden')" class="inline-flex items-center justify-center border-2 border-white text-white font-bold py-3 px-6 rounded-xl hover:bg-white hover:text-emerald-900 transition">
-                            View Online
-                        </button>
-                    </div>
-                </div>
 
-                <div class="hidden md:flex justify-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-48 w-48 text-emerald-500/30" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M13 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V9l-7-7zm0 1.5L18.5 9H13V3.5zM6 20V4h5v7h7v9H6z"/>
-                    </svg>
-                </div>
+        <section class="bg-emerald-900 text-white p-10 rounded-3xl shadow-2xl">
+            <h3 class="text-3xl font-bold mb-4">College Prospectus 2026</h3>
+            <div class="flex flex-col md:flex-row gap-6 items-center">
+                <a href="prospectus.pdf" download class="bg-white text-emerald-900 px-8 py-3 rounded-xl font-bold hover:bg-emerald-100">Download PDF</a>
+                <button onclick="document.getElementById('pdf-box').classList.toggle('hidden')" class="border-2 border-white px-8 py-3 rounded-xl font-bold">View Online</button>
             </div>
-
-            <div id="pdfViewer" class="hidden mt-8 w-full h-[600px] bg-white rounded-xl shadow-inner p-2">
-                <iframe src="prospectus.pdf" width="100%" height="100%" class="rounded-lg border-0">
-                    <p>Your browser does not support PDFs. <a href="prospectus.pdf">Download it here.</a></p>
-                </iframe>
+            <div id="pdf-box" class="hidden mt-8 h-[500px] bg-white rounded-xl">
+                <iframe src="prospectus.pdf" width="100%" height="100%"></iframe>
             </div>
         </section>
     </main>
-    <footer class="bg-gray-900 text-white pt-12 pb-8 mt-20">
-        <div class="max-w-7xl mx-auto px-4">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-12 mb-8">
-                
-                <div>
-                    <h3 class="text-2xl font-black text-emerald-400 mb-4">GGCC SAHIWAL</h3>
-                    <p class="text-gray-400 text-sm leading-relaxed">
-                        Govt. Graduate College of Commerce, Sahiwal. <br>
-                        A legacy of excellence in commerce and IT education since 1964.
-                    </p>
-                </div>
-
-                <div>
-                    <h4 class="text-lg font-bold mb-4 border-b border-gray-700 pb-2">Quick Navigation</h4>
-                    <ul class="space-y-2 text-sm text-gray-400">
-                        <li><a href="index.html" class="hover:text-emerald-400 transition">Home & Mission</a></li>
-                        <li><a href="academics.html" class="hover:text-emerald-400 transition">Admission & Prospectus</a></li>
-                        <li><a href="online-classes.html" class="hover:text-emerald-400 transition">Online Lectures</a></li>
-                        <li><a href="events.html" class="hover:text-emerald-400 transition">Event Gallery</a></li>
-                    </ul>
-                </div>
-
-                <div>
-                    <h4 class="text-lg font-bold mb-4 border-b border-gray-700 pb-2">Connect With Us</h4>
-                    <div class="flex space-x-4">
-                        <a href="https://facebook.com/your-college-page" class="bg-gray-800 p-3 rounded-full hover:bg-blue-600 transition group">
-                            <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24"><path d="M9 8H7v4h2v9h4v-9h3.6l.4-4H13V6.7c0-.8.4-1.2 1.1-1.2H16V1h-3.3C10.1 1 9 2.5 9 4.8V8z"/></svg>
-                        </a>
-                        <a href="https://youtube.com/your-college-channel" class="bg-gray-800 p-3 rounded-full hover:bg-red-600 transition">
-                            <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24"><path d="M23.5 6.2c-.3-1.1-1.1-1.9-2.2-2.2C19.3 3.5 12 3.5 12 3.5s-7.3 0-9.3.5c-1.1.3-1.9 1.1-2.2 2.2C0 8.2 0 12 0 12s0 3.8.5 5.8c.3 1.1 1.1 1.9 2.2 2.2 2 1 9.3 1 9.3 1s7.3 0 9.3-1c1.1-.3 1.9-1.1 2.2-2.2.5-2 .5-5.8.5-5.8s0-3.8-.5-5.8zM9.5 15.5V8.5l6.5 3.5-6.5 3.5z"/></svg>
-                        </a>
-                        <a href="https://wa.me/923001234567" class="bg-gray-800 p-3 rounded-full hover:bg-green-500 transition">
-                            <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.438 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-gray-500">
-                <p>&copy; 2026 Govt. Graduate College of Commerce, Sahiwal. All rights reserved.</p>
-                <div class="mt-4 md:mt-0 space-x-4">
-                    <span>Designed for Excellence</span>
-                    <span class="text-emerald-500 font-bold tracking-tighter">GCUF Affiliated</span>
-                </div>
-            </div>
-        </div>
-    </footer>
 </body>
 </html>
