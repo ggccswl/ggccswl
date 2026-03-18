@@ -5,147 +5,145 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Online Classes Gallery | GGCC Sahiwal</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <style>@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap'); body { font-family: 'Inter', sans-serif; }</style>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        .fade-in { animation: fadeIn 0.5s ease-in; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
 </head>
-<body class="bg-gray-50">
+<body class="bg-gray-50 text-gray-800">
+
     <header class="sticky top-0 z-50 shadow-lg bg-white/95 py-4 px-4">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
             <h1 class="text-xl font-extrabold text-emerald-700">GGCC Sahiwal</h1>
             <nav class="space-x-6 text-sm font-medium">
-                <a href="index.html" class="text-gray-600">Home</a>
-                <a href="academics.html" class="text-gray-600">Academics</a>
-                <a href="conduct.html" class="text-gray-600">Rules & Facilities</a>
-                <a href="online-classes.html" class="text-emerald-600 font-bold">Online Classes</a>
-<a href="events.html" class="text-gray-600 hover:text-emerald-600">Events</a>
-
+                <a href="index.html" class="text-gray-600 hover:text-emerald-600 transition">Home</a>
+                <a href="academics.html" class="text-gray-600 hover:text-emerald-600 transition">Academics</a>
+                <a href="conduct.html" class="text-gray-600 hover:text-emerald-600 transition">Rules</a>
+                <a href="online-classes.html" class="text-emerald-600 font-bold border-b-2 border-emerald-600">Online Classes</a>
+                <a href="events.html" class="text-gray-600 hover:text-emerald-600 transition">Events</a>
             </nav>
         </div>
     </header>
 
     <main class="max-w-7xl mx-auto py-12 px-4">
         <div class="text-center mb-12">
-            <h2 class="text-4xl font-black text-emerald-800">Online Classes Gallery</h2>
-            <p class="text-gray-600 mt-2">Documenting our journey through digital commerce education.</p>
+            <h2 class="text-4xl font-black text-emerald-800 uppercase tracking-tight">Online Classes Gallery</h2>
+            <p class="text-gray-500 mt-2">Manage and document digital commerce sessions.</p>
         </div>
 
-        <section class="max-w-2xl mx-auto bg-white p-6 rounded-xl shadow-md mb-16 border-t-4 border-emerald-600">
-            <h3 class="text-xl font-bold text-gray-800 mb-4">Upload New Class Photo</h3>
-            <div class="space-y-4">
+        <section class="max-w-3xl mx-auto bg-gray-900 text-white p-8 rounded-3xl shadow-2xl mb-16 border-b-8 border-emerald-600">
+            <div class="flex items-center mb-6">
+                <span class="bg-emerald-500 text-white text-[10px] font-bold px-2 py-1 rounded mr-3 uppercase">Admin Tool</span>
+                <h3 class="text-xl font-bold">GitHub Gallery Code Generator</h3>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-6">
                 <div>
-                    <label class="block text-sm font-medium text-gray-700">Class Title</label>
-                    <input type="text" id="imgTitle" placeholder="e.g. BS-Commerce Zoom Session" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-emerald-500 focus:border-emerald-500">
+                    <label class="block text-xs font-bold text-emerald-400 uppercase mb-1">Class Title</label>
+                    <input type="text" id="adminTitle" placeholder="e.g. Financial Accounting 101" class="w-full bg-gray-800 border border-gray-700 rounded-xl p-3 outline-none focus:ring-2 focus:ring-emerald-500 text-sm">
                 </div>
                 <div>
-                    <label class="block text-sm font-medium text-gray-700">Select Image</label>
-                    <input type="file" id="imgFile" accept="image/*" class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-emerald-50 file:text-emerald-700 hover:file:bg-emerald-100">
+                    <label class="block text-xs font-bold text-emerald-400 uppercase mb-1">Image Filename</label>
+                    <input type="text" id="adminPath" placeholder="e.g. uploads/class1.jpg" class="w-full bg-gray-800 border border-gray-700 rounded-xl p-3 outline-none focus:ring-2 focus:ring-emerald-500 text-sm">
                 </div>
-                <button onclick="addPhoto()" class="w-full bg-emerald-600 text-white font-bold py-2 rounded-lg hover:bg-emerald-700 transition">Add to Gallery</button>
+            </div>
+
+            <button onclick="generateGalleryCode()" class="mt-6 w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded-xl transition shadow-lg">Generate Gallery Item</button>
+
+            <div id="codeContainer" class="hidden mt-6">
+                <p class="text-xs text-gray-400 mb-2">Copy this code and paste it inside your 'galleryGrid' div in the code editor:</p>
+                <textarea id="outputCode" class="w-full h-32 bg-black text-emerald-400 p-4 font-mono text-xs rounded-xl border border-gray-700" readonly></textarea>
+                <button onclick="copyToClipboard()" class="mt-2 text-xs text-emerald-400 hover:underline">Click to Copy Code</button>
             </div>
         </section>
 
-        <hr class="mb-12">
+        <div class="max-w-md mx-auto mb-10">
+            <input type="text" id="searchBar" onkeyup="filterGallery()" placeholder="Search class records..." class="w-full p-4 rounded-2xl border border-gray-200 shadow-sm outline-none focus:ring-2 focus:ring-emerald-500">
+        </div>
 
         <div id="galleryGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             
-            <div class="bg-white rounded-xl shadow-md overflow-hidden hover:scale-105 transition-transform duration-300">
-                <img src="https://images.unsplash.com/photo-1588196749597-9ff075ee6b5b?auto=format&fit=crop&w=600&q=80" alt="Online Class" class="w-full h-56 object-cover">
-                <div class="p-4 border-t">
-                    <p class="font-bold text-emerald-700 italic text-center">Live Lecture - Principles of Accounting</p>
+            <div class="group bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-2xl transition-all duration-300 fade-in">
+                <div class="relative">
+                    <img src="https://images.unsplash.com/photo-1588196749597-9ff075ee6b5b?auto=format&fit=crop&w=600&q=80" class="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-500">
+                    <button onclick="deleteCard(this)" class="absolute top-3 right-3 bg-red-600/80 hover:bg-red-600 text-white p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                        </svg>
+                    </button>
+                </div>
+                <div class="p-5 border-t">
+                    <h4 class="font-bold text-emerald-800 text-center uppercase tracking-tight">Principles of Accounting</h4>
+                    <p class="text-center text-xs text-gray-400 mt-1 italic uppercase">Archived Session</p>
                 </div>
             </div>
 
-            <div class="bg-white rounded-xl shadow-md overflow-hidden hover:scale-105 transition-transform duration-300">
-                <img src="https://images.unsplash.com/photo-1577891772227-d263f5e3c973?auto=format&fit=crop&w=600&q=80" alt="Online Class" class="w-full h-56 object-cover">
-                <div class="p-4 border-t">
-                    <p class="font-bold text-emerald-700 italic text-center">Interactive Webinar Session</p>
-                </div>
             </div>
-
-        </div>
     </main>
 
-    <script>
-        function addPhoto() {
-            const title = document.getElementById('imgTitle').value;
-            const fileInput = document.getElementById('imgFile');
-            const gallery = document.getElementById('galleryGrid');
+    <script src="footer.js"></script>
 
-            if (title === "" || fileInput.files.length === 0) {
-                alert("Please provide both a title and a photo.");
+    <script>
+        // 1. GENERATE CODE (To save pictures in your code)
+        function generateGalleryCode() {
+            const title = document.getElementById('adminTitle').value;
+            const path = document.getElementById('adminPath').value;
+            const container = document.getElementById('codeContainer');
+            const output = document.getElementById('outputCode');
+
+            if(!title || !path) {
+                alert("Please fill in both fields.");
                 return;
             }
 
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                // Create New Gallery Item
-                const newDiv = document.createElement('div');
-                newDiv.className = "bg-white rounded-xl shadow-md overflow-hidden hover:scale-105 transition-transform duration-300";
-                newDiv.innerHTML = `
-                    <img src="${e.target.result}" class="w-full h-56 object-cover">
-                    <div class="p-4 border-t">
-                        <p class="font-bold text-emerald-700 italic text-center">${title}</p>
-                    </div>
-                `;
-                // Add to the top of the gallery
-                gallery.prepend(newDiv);
-                
-                // Clear inputs
-                document.getElementById('imgTitle').value = "";
-                document.getElementById('imgFile').value = "";
-            };
-            reader.readAsDataURL(fileInput.files[0]);
+            const snippet = `
+            <div class="group bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-2xl transition-all duration-300 fade-in">
+                <div class="relative">
+                    <img src="${path}" class="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-500">
+                    <button onclick="deleteCard(this)" class="absolute top-3 right-3 bg-red-600/80 hover:bg-red-600 text-white p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                        </svg>
+                    </button>
+                </div>
+                <div class="p-5 border-t">
+                    <h4 class="font-bold text-emerald-800 text-center uppercase tracking-tight">${title}</h4>
+                    <p class="text-center text-xs text-gray-400 mt-1 italic uppercase">New Upload</p>
+                </div>
+            </div>`;
+
+            output.value = snippet;
+            container.classList.remove('hidden');
+        }
+
+        // 2. COPY CLIPBOARD
+        function copyToClipboard() {
+            const copyText = document.getElementById("outputCode");
+            copyText.select();
+            document.execCommand("copy");
+            alert("Code copied! Now open your online-classes.html file on GitHub and paste it inside the 'galleryGrid' div.");
+        }
+
+        // 3. DELETE (Removes from view)
+        function deleteCard(button) {
+            if(confirm("Hide this photo from the gallery? (Note: To permanently delete, you must remove its code from your HTML file on GitHub)")) {
+                const card = button.closest('.group');
+                card.style.opacity = '0';
+                setTimeout(() => card.remove(), 300);
+            }
+        }
+
+        // 4. SEARCH/FILTER
+        function filterGallery() {
+            const input = document.getElementById('searchBar').value.toLowerCase();
+            const cards = document.getElementsByClassName('group');
+            for (let i = 0; i < cards.length; i++) {
+                const title = cards[i].getElementsByTagName("h4")[0].innerText.toLowerCase();
+                cards[i].style.display = title.includes(input) ? "" : "none";
+            }
         }
     </script>
-
-    <footer class="text-center py-10 text-gray-500 text-sm mt-12">
-        &copy; 2026 Govt. Graduate College of Commerce, Sahiwal.
-    </footer>
-    <footer class="bg-gray-900 text-white pt-12 pb-8 mt-20">
-        <div class="max-w-7xl mx-auto px-4">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-12 mb-8">
-                
-                <div>
-                    <h3 class="text-2xl font-black text-emerald-400 mb-4">GGCC SAHIWAL</h3>
-                    <p class="text-gray-400 text-sm leading-relaxed">
-                        Govt. Graduate College of Commerce, Sahiwal. <br>
-                        A legacy of excellence in commerce and IT education since 1964.
-                    </p>
-                </div>
-
-                <div>
-                    <h4 class="text-lg font-bold mb-4 border-b border-gray-700 pb-2">Quick Navigation</h4>
-                    <ul class="space-y-2 text-sm text-gray-400">
-                        <li><a href="index.html" class="hover:text-emerald-400 transition">Home & Mission</a></li>
-                        <li><a href="academics.html" class="hover:text-emerald-400 transition">Admission & Prospectus</a></li>
-                        <li><a href="online-classes.html" class="hover:text-emerald-400 transition">Online Lectures</a></li>
-                        <li><a href="events.html" class="hover:text-emerald-400 transition">Event Gallery</a></li>
-                    </ul>
-                </div>
-
-                <div>
-                    <h4 class="text-lg font-bold mb-4 border-b border-gray-700 pb-2">Connect With Us</h4>
-                    <div class="flex space-x-4">
-                        <a href="https://facebook.com/your-college-page" class="bg-gray-800 p-3 rounded-full hover:bg-blue-600 transition group">
-                            <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24"><path d="M9 8H7v4h2v9h4v-9h3.6l.4-4H13V6.7c0-.8.4-1.2 1.1-1.2H16V1h-3.3C10.1 1 9 2.5 9 4.8V8z"/></svg>
-                        </a>
-                        <a href="https://youtube.com/your-college-channel" class="bg-gray-800 p-3 rounded-full hover:bg-red-600 transition">
-                            <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24"><path d="M23.5 6.2c-.3-1.1-1.1-1.9-2.2-2.2C19.3 3.5 12 3.5 12 3.5s-7.3 0-9.3.5c-1.1.3-1.9 1.1-2.2 2.2C0 8.2 0 12 0 12s0 3.8.5 5.8c.3 1.1 1.1 1.9 2.2 2.2 2 1 9.3 1 9.3 1s7.3 0 9.3-1c1.1-.3 1.9-1.1 2.2-2.2.5-2 .5-5.8.5-5.8s0-3.8-.5-5.8zM9.5 15.5V8.5l6.5 3.5-6.5 3.5z"/></svg>
-                        </a>
-                        <a href="https://wa.me/923001234567" class="bg-gray-800 p-3 rounded-full hover:bg-green-500 transition">
-                            <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.438 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-gray-500">
-                <p>&copy; 2026 Govt. Graduate College of Commerce, Sahiwal. All rights reserved.</p>
-                <div class="mt-4 md:mt-0 space-x-4">
-                    <span>Designed for Excellence</span>
-                    <span class="text-emerald-500 font-bold tracking-tighter">GCUF Affiliated</span>
-                </div>
-            </div>
-        </div>
-    </footer>
 </body>
 </html>
