@@ -3,162 +3,109 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Online Classes Gallery | GGCC Sahiwal</title>
+    <title>Media Gallery | GGCC Sahiwal</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
-        body { font-family: 'Inter', sans-serif; }
-        .fade-in { animation: fadeIn 0.5s ease-in; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-    </style>
+    <style>@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap'); body { font-family: 'Inter', sans-serif; }</style>
 </head>
-<body class="bg-gray-50 text-gray-800">
-
+<body class="bg-gray-50">
     <header class="sticky top-0 z-50 shadow-lg bg-white/95 py-4 px-4">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
             <h1 class="text-xl font-extrabold text-emerald-700">GGCC Sahiwal</h1>
             <nav class="space-x-6 text-sm font-medium">
-                <a href="index.html" class="text-gray-600 hover:text-emerald-600 transition">Home</a>
-                <a href="academics.html" class="text-gray-600 hover:text-emerald-600 transition">Academics</a>
-                <a href="conduct.html" class="text-gray-600 hover:text-emerald-600 transition">Rules</a>
-                <a href="online-classes.html" class="text-emerald-600 font-bold border-b-2 border-emerald-600">Online Classes</a>
-                <a href="events.html" class="text-gray-600 hover:text-emerald-600 transition">Events</a>
+                <a href="index.html" class="text-gray-600">Home</a>
+                <a href="academics.html" class="text-gray-600">Academics</a>
+                <a href="conduct.html" class="text-gray-600">Rules & Facilities</a>
+                <a href="online-classes.html" class="text-emerald-600 font-bold">Media Gallery</a>
             </nav>
         </div>
     </header>
 
     <main class="max-w-7xl mx-auto py-12 px-4">
-        <div class="text-center mb-12">
-            <h2 class="text-4xl font-black text-emerald-800 uppercase tracking-tight">Online Classes Gallery</h2>
-            <p class="text-gray-500 mt-2">Manage and document digital commerce sessions.</p>
-        </div>
-
-        <section class="max-w-3xl mx-auto bg-gray-900 text-white p-8 rounded-3xl shadow-2xl mb-16 border-b-8 border-emerald-600">
-            <div class="flex items-center mb-6">
-                <span class="bg-emerald-500 text-white text-[10px] font-bold px-2 py-1 rounded mr-3 uppercase">Admin Tool</span>
-                <h3 class="text-xl font-bold">GitHub Gallery Code Generator</h3>
-            </div>
-            
+        
+        <section class="max-w-4xl mx-auto bg-white p-8 rounded-2xl shadow-xl mb-16 border-t-8 border-emerald-600">
+            <h3 class="text-2xl font-bold text-gray-800 mb-6">Upload Center</h3>
             <div class="grid md:grid-cols-2 gap-6">
-                <div>
-                    <label class="block text-xs font-bold text-emerald-400 uppercase mb-1">Class Title</label>
-                    <input type="text" id="adminTitle" placeholder="e.g. Financial Accounting 101" class="w-full bg-gray-800 border border-gray-700 rounded-xl p-3 outline-none focus:ring-2 focus:ring-emerald-500 text-sm">
+                <div class="space-y-4">
+                    <label class="block text-sm font-medium text-gray-700">Event/Class Title</label>
+                    <input type="text" id="imgTitle" placeholder="e.g. Annual Sports Day 2026" class="w-full border p-3 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none">
+                    
+                    <label class="block text-sm font-medium text-gray-700">Category</label>
+                    <select id="imgCategory" class="w-full border p-3 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none">
+                        <option value="online">Online Classes</option>
+                        <option value="events">College Events</option>
+                    </select>
                 </div>
-                <div>
-                    <label class="block text-xs font-bold text-emerald-400 uppercase mb-1">Image Filename</label>
-                    <input type="text" id="adminPath" placeholder="e.g. uploads/class1.jpg" class="w-full bg-gray-800 border border-gray-700 rounded-xl p-3 outline-none focus:ring-2 focus:ring-emerald-500 text-sm">
+                <div class="flex flex-col justify-end space-y-4">
+                    <input type="file" id="imgFile" accept="image/*" class="text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:bg-emerald-50 file:text-emerald-700 hover:file:bg-emerald-100 cursor-pointer">
+                    <button onclick="addPhoto()" class="w-full bg-emerald-600 text-white font-bold py-3 rounded-xl hover:bg-emerald-700 shadow-lg transition">Post to Gallery</button>
                 </div>
-            </div>
-
-            <button onclick="generateGalleryCode()" class="mt-6 w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded-xl transition shadow-lg">Generate Gallery Item</button>
-
-            <div id="codeContainer" class="hidden mt-6">
-                <p class="text-xs text-gray-400 mb-2">Copy this code and paste it inside your 'galleryGrid' div in the code editor:</p>
-                <textarea id="outputCode" class="w-full h-32 bg-black text-emerald-400 p-4 font-mono text-xs rounded-xl border border-gray-700" readonly></textarea>
-                <button onclick="copyToClipboard()" class="mt-2 text-xs text-emerald-400 hover:underline">Click to Copy Code</button>
             </div>
         </section>
 
-        <div class="max-w-md mx-auto mb-10">
-            <input type="text" id="searchBar" onkeyup="filterGallery()" placeholder="Search class records..." class="w-full p-4 rounded-2xl border border-gray-200 shadow-sm outline-none focus:ring-2 focus:ring-emerald-500">
+        <div class="mb-20">
+            <div class="flex items-center space-x-4 mb-8">
+                <h2 class="text-3xl font-black text-gray-800">Academic: Online Classes</h2>
+                <div class="flex-grow h-1 bg-emerald-200 rounded"></div>
+            </div>
+            <div id="onlineGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="bg-white rounded-xl shadow overflow-hidden border">
+                    <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=600&q=80" class="w-full h-48 object-cover">
+                    <div class="p-4"><p class="font-bold text-emerald-800 text-center uppercase text-sm tracking-widest">IT Workshop Session</p></div>
+                </div>
+            </div>
         </div>
 
-        <div id="galleryGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-           
-            <div class="group bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-2xl transition-all duration-300 fade-in">
-                <div class="relative">
-                    <img src="college logo.jpeg" class="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-500">
-                    <button onclick="deleteCard(this)" class="absolute top-3 right-3 bg-red-600/80 hover:bg-red-600 text-white p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                        </svg>
-                    </button>
-                </div>
-                <div class="p-5 border-t">
-                    <h4 class="font-bold text-emerald-800 text-center uppercase tracking-tight">college logo</h4>
-                    <p class="text-center text-xs text-gray-400 mt-1 italic uppercase">New Upload</p>
-                </div>
-            </div> 
-            
-            <div class="group bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-2xl transition-all duration-300 fade-in">
-                <div class="relative">
-                    <img src="https://images.unsplash.com/photo-1588196749597-9ff075ee6b5b?auto=format&fit=crop&w=600&q=80" class="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-500">
-                    <button onclick="deleteCard(this)" class="absolute top-3 right-3 bg-red-600/80 hover:bg-red-600 text-white p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                        </svg>
-                    </button>
-                </div>
-                <div class="p-5 border-t">
-                    <h4 class="font-bold text-emerald-800 text-center uppercase tracking-tight">Principles of Accounting</h4>
-                    <p class="text-center text-xs text-gray-400 mt-1 italic uppercase">Archived Session</p>
+        <div>
+            <div class="flex items-center space-x-4 mb-8">
+                <h2 class="text-3xl font-black text-gray-800">Campus Events & Life</h2>
+                <div class="flex-grow h-1 bg-emerald-200 rounded"></div>
+            </div>
+            <div id="eventsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="bg-white rounded-xl shadow overflow-hidden border">
+                    <img src="https://images.unsplash.com/photo-1523580494863-6f3031224c94?auto=format&fit=crop&w=600&q=80" class="w-full h-48 object-cover">
+                    <div class="p-4"><p class="font-bold text-emerald-800 text-center uppercase text-sm tracking-widest">Annual Convocation</p></div>
                 </div>
             </div>
+        </div>
 
-            </div>
     </main>
 
-    <script src="footer.js"></script>
-
     <script>
-        // 1. GENERATE CODE (To save pictures in your code)
-        function generateGalleryCode() {
-            const title = document.getElementById('adminTitle').value;
-            const path = document.getElementById('adminPath').value;
-            const container = document.getElementById('codeContainer');
-            const output = document.getElementById('outputCode');
+        function addPhoto() {
+            const title = document.getElementById('imgTitle').value;
+            const category = document.getElementById('imgCategory').value;
+            const fileInput = document.getElementById('imgFile');
+            
+            // Determine which grid to send the photo to
+            const targetGrid = category === 'online' ? document.getElementById('onlineGrid') : document.getElementById('eventsGrid');
 
-            if(!title || !path) {
-                alert("Please fill in both fields.");
+            if (title === "" || fileInput.files.length === 0) {
+                alert("Please fill in the title and select an image!");
                 return;
             }
 
-            const snippet = `
-            <div class="group bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-2xl transition-all duration-300 fade-in">
-                <div class="relative">
-                    <img src="${path}" class="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-500">
-                    <button onclick="deleteCard(this)" class="absolute top-3 right-3 bg-red-600/80 hover:bg-red-600 text-white p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                        </svg>
-                    </button>
-                </div>
-                <div class="p-5 border-t">
-                    <h4 class="font-bold text-emerald-800 text-center uppercase tracking-tight">${title}</h4>
-                    <p class="text-center text-xs text-gray-400 mt-1 italic uppercase">New Upload</p>
-                </div>
-            </div>`;
-
-            output.value = snippet;
-            container.classList.remove('hidden');
-        }
-
-        // 2. COPY CLIPBOARD
-        function copyToClipboard() {
-            const copyText = document.getElementById("outputCode");
-            copyText.select();
-            document.execCommand("copy");
-            alert("Code copied! Now open your online-classes.html file on GitHub and paste it inside the 'galleryGrid' div.");
-        }
-
-        // 3. DELETE (Removes from view)
-        function deleteCard(button) {
-            if(confirm("Hide this photo from the gallery? (Note: To permanently delete, you must remove its code from your HTML file on GitHub)")) {
-                const card = button.closest('.group');
-                card.style.opacity = '0';
-                setTimeout(() => card.remove(), 300);
-            }
-        }
-
-        // 4. SEARCH/FILTER
-        function filterGallery() {
-            const input = document.getElementById('searchBar').value.toLowerCase();
-            const cards = document.getElementsByClassName('group');
-            for (let i = 0; i < cards.length; i++) {
-                const title = cards[i].getElementsByTagName("h4")[0].innerText.toLowerCase();
-                cards[i].style.display = title.includes(input) ? "" : "none";
-            }
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const newDiv = document.createElement('div');
+                newDiv.className = "bg-white rounded-xl shadow-lg overflow-hidden border-2 border-emerald-50 hover:border-emerald-500 transition-all duration-300";
+                newDiv.innerHTML = `
+                    <img src="${e.target.result}" class="w-full h-48 object-cover">
+                    <div class="p-4">
+                        <p class="font-bold text-emerald-800 text-center uppercase text-xs tracking-widest">${title}</p>
+                    </div>
+                `;
+                targetGrid.prepend(newDiv);
+                
+                // Reset inputs
+                document.getElementById('imgTitle').value = "";
+                document.getElementById('imgFile').value = "";
+            };
+            reader.readAsDataURL(fileInput.files[0]);
         }
     </script>
+
+    <footer class="bg-gray-800 text-white py-8 text-center mt-20">
+        <p class="text-sm">&copy; 2026 GGCC Sahiwal Media Portal</p>
+    </footer>
 </body>
 </html>
