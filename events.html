@@ -3,153 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>College Events | GGCC Sahiwal</title>
+    <title>Events Gallery | GGCC Sahiwal</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <style>@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap'); body { font-family: 'Inter', sans-serif; }</style>
 </head>
 <body class="bg-gray-50">
-    <header class="sticky top-0 z-50 shadow-lg bg-white/95 py-4 px-4">
-        <div class="max-w-7xl mx-auto flex justify-between items-center">
-            <h1 class="text-xl font-extrabold text-emerald-700 underline decoration-2">GGCC Sahiwal</h1>
-            <nav class="space-x-4 md:space-x-6 text-xs md:text-sm font-medium">
-                <a href="index.html" class="text-gray-600">Home</a>
-                <a href="academics.html" class="text-gray-600">Academics</a>
-                <a href="online-classes.html" class="text-gray-600">Online Classes</a>
-                <a href="events.html" class="text-emerald-600 font-bold border-b-2 border-emerald-600">Events</a>
-            </nav>
-        </div>
-    </header>
-
     <main class="max-w-7xl mx-auto py-12 px-4">
-        <div class="mb-10 border-l-8 border-emerald-600 pl-6">
-            <h2 class="text-4xl font-black text-gray-900 uppercase tracking-tight">Campus Events</h2>
-            <p class="text-emerald-700 font-medium">Capturing the vibrant life at Govt. Graduate College of Commerce.</p>
+        <h2 class="text-4xl font-black text-center mb-8 text-emerald-800">Campus Events</h2>
+
+        <div class="max-w-md mx-auto mb-10">
+            <input type="text" id="gallerySearch" onkeyup="filterGallery()" placeholder="Search sports, exams, etc..." class="w-full p-4 rounded-2xl border-2 border-emerald-200 shadow-sm focus:ring-2 focus:ring-emerald-500 outline-none">
         </div>
 
-        <section class="bg-white p-6 rounded-2xl shadow-lg mb-12 border border-emerald-100">
-            <h3 class="text-lg font-bold text-gray-800 mb-4 flex items-center">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                </svg>
-                Upload Event Photo
-            </h3>
-            <div class="grid md:grid-cols-3 gap-4">
-                <input type="text" id="eventTitle" placeholder="Event Name (e.g. Sports Gala 2026)" class="w-full border p-2 rounded-lg outline-none focus:ring-2 focus:ring-emerald-500">
-                <input type="file" id="eventFile" accept="image/*" class="text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-emerald-600 file:text-white hover:file:bg-emerald-700">
-                <button onclick="uploadEvent()" class="bg-gray-900 text-white font-bold py-2 rounded-lg hover:bg-black transition shadow-md">Add to Event Gallery</button>
+        <details class="mb-12 bg-gray-800 text-white p-6 rounded-2xl shadow-xl">
+            <summary class="cursor-pointer font-bold">ADMIN: Generate GitHub Gallery Code</summary>
+            <div class="grid md:grid-cols-2 gap-4 mt-4">
+                <input type="text" id="adminTitle" placeholder="Event Name" class="text-black p-2 rounded">
+                <input type="text" id="adminUrl" placeholder="Image Path (e.g. uploads/pic.jpg)" class="text-black p-2 rounded">
             </div>
-        </section>
+            <button onclick="generateCode()" class="mt-4 bg-emerald-600 px-6 py-2 rounded font-bold">Get Code</button>
+            <textarea id="codeResult" class="w-full mt-4 h-24 bg-black text-green-400 p-2 text-xs" readonly></textarea>
+        </details>
 
         <div id="eventsGallery" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            
-            <div class="group bg-white rounded-2xl shadow-md overflow-hidden transition-all hover:shadow-2xl">
-                <div class="relative">
-                    <img src="https://images.unsplash.com/photo-1508919892451-6121798e4fe3?auto=format&fit=crop&w=600&q=80" alt="Sports" class="w-full h-60 object-cover group-hover:scale-105 transition duration-500">
-                    <div class="absolute top-4 left-4 bg-emerald-600 text-white text-xs font-bold px-3 py-1 rounded-full">Athletics</div>
-                </div>
-                <div class="p-5">
-                    <h4 class="font-bold text-xl text-gray-800">Annual Sports Gala</h4>
-                    <p class="text-gray-500 text-sm mt-1">Students participating in the 100m sprint finals.</p>
-                </div>
+            <div class="group bg-white rounded-2xl shadow-md overflow-hidden transition-all">
+                <img src="https://via.placeholder.com/600x400" class="w-full h-60 object-cover">
+                <div class="p-5"><h4 class="font-bold text-xl">Annual Sports Day</h4></div>
             </div>
-
-            <div class="group bg-white rounded-2xl shadow-md overflow-hidden transition-all hover:shadow-2xl">
-                <div class="relative">
-                    <img src="https://images.unsplash.com/photo-1475721027466-a0eb83247f35?auto=format&fit=crop&w=600&q=80" alt="Seminar" class="w-full h-60 object-cover group-hover:scale-105 transition duration-500">
-                    <div class="absolute top-4 left-4 bg-emerald-600 text-white text-xs font-bold px-3 py-1 rounded-full">Academic</div>
-                </div>
-                <div class="p-5">
-                    <h4 class="font-bold text-xl text-gray-800">Career Counseling Seminar</h4>
-                    <p class="text-gray-500 text-sm mt-1">Guest speakers sharing insights on C.A. and I.C.M.A. pathways.</p>
-                </div>
-            </div>
-
         </div>
     </main>
 
-    <footer class="bg-gray-900 text-white py-12 mt-20 text-center">
-        <p class="text-gray-400 text-sm italic">"Education is the most powerful weapon which you can use to change the world."</p>
-        <p class="mt-4 font-bold text-emerald-500 uppercase tracking-widest">GGCC Sahiwal</p>
-    </footer>
-
     <script>
-        function uploadEvent() {
-            const title = document.getElementById('eventTitle').value;
-            const fileInput = document.getElementById('eventFile');
-            const gallery = document.getElementById('eventsGallery');
-
-            if (title === "" || fileInput.files.length === 0) {
-                alert("Please add a title and select a photo!");
-                return;
+        function filterGallery() {
+            const filter = document.getElementById('gallerySearch').value.toLowerCase();
+            const cards = document.getElementById('eventsGallery').getElementsByClassName('group');
+            for (let card of cards) {
+                const title = card.querySelector('h4').innerText.toLowerCase();
+                card.style.display = title.includes(filter) ? "" : "none";
             }
+        }
 
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const newCard = document.createElement('div');
-                newCard.className = "group bg-white rounded-2xl shadow-md overflow-hidden transition-all hover:shadow-2xl animate-fade-in";
-                newCard.innerHTML = `
-                    <div class="relative">
-                        <img src="${e.target.result}" class="w-full h-60 object-cover group-hover:scale-105 transition duration-500">
-                        <div class="absolute top-4 left-4 bg-emerald-600 text-white text-xs font-bold px-3 py-1 rounded-full">Recent Event</div>
-                    </div>
-                    <div class="p-5">
-                        <h4 class="font-bold text-xl text-gray-800">${title}</h4>
-                        <p class="text-gray-500 text-sm mt-1">Uploaded by Administration</p>
-                    </div>
-                `;
-                gallery.prepend(newCard);
-                document.getElementById('eventTitle').value = "";
-                document.getElementById('eventFile').value = "";
-            };
-            reader.readAsDataURL(fileInput.files[0]);
+        function generateCode() {
+            const t = document.getElementById('adminTitle').value;
+            const u = document.getElementById('adminUrl').value;
+            const code = `<div class="group bg-white rounded-2xl shadow-md overflow-hidden transition-all"><img src="${u}" class="w-full h-60 object-cover"><div class="p-5"><h4 class="font-bold text-xl">${t}</h4></div></div>`;
+            document.getElementById('codeResult').value = code;
         }
     </script>
-    <footer class="bg-gray-900 text-white pt-12 pb-8 mt-20">
-        <div class="max-w-7xl mx-auto px-4">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-12 mb-8">
-                
-                <div>
-                    <h3 class="text-2xl font-black text-emerald-400 mb-4">GGCC SAHIWAL</h3>
-                    <p class="text-gray-400 text-sm leading-relaxed">
-                        Govt. Graduate College of Commerce, Sahiwal. <br>
-                        A legacy of excellence in commerce and IT education since 1964.
-                    </p>
-                </div>
-
-                <div>
-                    <h4 class="text-lg font-bold mb-4 border-b border-gray-700 pb-2">Quick Navigation</h4>
-                    <ul class="space-y-2 text-sm text-gray-400">
-                        <li><a href="index.html" class="hover:text-emerald-400 transition">Home & Mission</a></li>
-                        <li><a href="academics.html" class="hover:text-emerald-400 transition">Admission & Prospectus</a></li>
-                        <li><a href="online-classes.html" class="hover:text-emerald-400 transition">Online Lectures</a></li>
-                        <li><a href="events.html" class="hover:text-emerald-400 transition">Event Gallery</a></li>
-                    </ul>
-                </div>
-
-                <div>
-                    <h4 class="text-lg font-bold mb-4 border-b border-gray-700 pb-2">Connect With Us</h4>
-                    <div class="flex space-x-4">
-                        <a href="https://facebook.com/your-college-page" class="bg-gray-800 p-3 rounded-full hover:bg-blue-600 transition group">
-                            <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24"><path d="M9 8H7v4h2v9h4v-9h3.6l.4-4H13V6.7c0-.8.4-1.2 1.1-1.2H16V1h-3.3C10.1 1 9 2.5 9 4.8V8z"/></svg>
-                        </a>
-                        <a href="https://youtube.com/your-college-channel" class="bg-gray-800 p-3 rounded-full hover:bg-red-600 transition">
-                            <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24"><path d="M23.5 6.2c-.3-1.1-1.1-1.9-2.2-2.2C19.3 3.5 12 3.5 12 3.5s-7.3 0-9.3.5c-1.1.3-1.9 1.1-2.2 2.2C0 8.2 0 12 0 12s0 3.8.5 5.8c.3 1.1 1.1 1.9 2.2 2.2 2 1 9.3 1 9.3 1s7.3 0 9.3-1c1.1-.3 1.9-1.1 2.2-2.2.5-2 .5-5.8.5-5.8s0-3.8-.5-5.8zM9.5 15.5V8.5l6.5 3.5-6.5 3.5z"/></svg>
-                        </a>
-                        <a href="https://wa.me/923001234567" class="bg-gray-800 p-3 rounded-full hover:bg-green-500 transition">
-                            <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.438 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-gray-500">
-                <p>&copy; 2026 Govt. Graduate College of Commerce, Sahiwal. All rights reserved.</p>
-                <div class="mt-4 md:mt-0 space-x-4">
-                    <span>Designed for Excellence</span>
-                    <span class="text-emerald-500 font-bold tracking-tighter">GCUF Affiliated</span>
-                </div>
-            </div>
-        </div>
-    </footer>
 </body>
 </html>
