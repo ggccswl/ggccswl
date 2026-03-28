@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Results | GGCC Sahiwal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="assets/theme.css">
+</head>
+<body class="bg-gray-50 text-gray-800 antialiased">
+<div id="nav-root"></div>
+<script src="nav.js"></script>
+
+<main class="max-w-5xl mx-auto py-12 px-4">
+    <div class="text-center mb-12 animate-on-scroll" data-animate>
+        <h1 class="text-4xl font-black text-emerald-900 uppercase tracking-tight">Examination results</h1>
+        <p class="text-gray-500 mt-2 text-sm">Official PDFs are published by staff in <a href="admin/" class="text-emerald-700 font-semibold underline">Admin → Student lists</a> (category <strong>Result</strong>).</p>
+    </div>
+
+    <p id="results-offline" class="hidden text-center text-amber-800 text-sm bg-amber-50 border border-amber-200 rounded-xl px-4 py-3 mb-8">Could not load results. Start the site server, or ask staff to upload PDFs in the admin panel.</p>
+
+    <div class="mb-10 max-w-md mx-auto animate-on-scroll" data-animate>
+        <label class="sr-only" for="resultSearch">Search results</label>
+        <input type="search" id="resultSearch" placeholder="Search by title or session…" class="w-full p-4 rounded-2xl border-2 border-emerald-100 shadow-sm focus:ring-2 focus:ring-emerald-500 outline-none transition-all">
+    </div>
+
+    <div id="resultsContainer" class="space-y-4">
+        <div id="dynamic-results" class="space-y-4"></div>
+    </div>
+
+    <div id="resultModal" class="hidden fixed inset-0 bg-black/80 z-[100] flex items-center justify-center p-4" role="dialog" aria-modal="true">
+        <div class="bg-white w-full max-w-5xl h-[90vh] rounded-3xl overflow-hidden relative shadow-2xl">
+            <button type="button" onclick="closeModal()" class="absolute top-4 right-4 bg-red-600 text-white w-10 h-10 rounded-full z-10 font-bold hover:bg-red-700 transition" aria-label="Close">✕</button>
+            <iframe id="pdfViewer" title="Result PDF" src="" width="100%" height="100%" class="border-0"></iframe>
+        </div>
+    </div>
+</main>
+
+<script>
+(function () {
+  var offline = document.getElementById('results-offline');
+  var container = document.getElementById('dynamic-results');
+
+  function showEmpty() {
+    var p = document.createElement('p');
+    p.id = 'results-empty';
+    p.className = 'text-center text-gray-500 py-16 px-4 bg-white rounded-2xl border border-dashed border-emerald-200 text-sm';
+    p.textContent = 'No result PDFs published yet. Staff: Admin → Student lists → category “Result”, then upload the gazette or list.';
+    container.appendChild(p);
+  }
+
+  fetch('/api/student-lists?category=result', { credentials: 'same-origin' })
+    .then(function (r) {
+      if (!r.ok) throw new Error('offline');
+      return r.json();
+    })
+    .then(function (list) {
+      offline.classList.add('hidden');
+      container.innerHTML = '';
+      if (!list.length) {
+        showEmpty();
+        return;
+      }
+      list.forEach(function (l) {
+        var row = document.createElement('div');
+        row.className = 'result-card bg-white p-6 rounded-2xl shadow-md border-l-8 border-emerald-600 flex flex-col md:flex-row justify-between items-center hover:shadow-xl transition card-lift';
+        var left = document.createElement('div');
+        left.className = 'mb-4 md:mb-0';
+        var h2 = document.createElement('h2');
+        h2.className = 'text-xl font-bold text-gray-900';
+        h2.textContent = l.title || '';
+        var sub = document.createElement('p');
+        sub.className = 'text-sm text-gray-500 uppercase tracking-widest font-semibold';
+        sub.textContent = 'Published list · ' + (l.sessionYear || '');
+        left.appendChild(h2);
+        left.appendChild(sub);
+        var actions = document.createElement('div');
+        actions.className = 'flex flex-wrap gap-3';
+        var dl = document.createElement('a');
+        dl.href = l.pdfUrl;
+        dl.download = '';
+        dl.className = 'bg-emerald-700 text-white px-6 py-2 rounded-xl font-bold hover:bg-emerald-800 shadow-md transition';
+        dl.textContent = 'Download';
+        var btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'border-2 border-emerald-700 text-emerald-700 px-6 py-2 rounded-xl font-bold hover:bg-emerald-50 transition';
+        btn.textContent = 'View';
+        btn.addEventListener('click', function () { viewResult(l.pdfUrl); });
+        actions.appendChild(dl);
+        actions.appendChild(btn);
+        row.appendChild(left);
+        row.appendChild(actions);
+        container.appendChild(row);
+      });
+    })
+    .catch(function () {
+      offline.classList.remove('hidden');
+      container.innerHTML = '';
+      showEmpty();
+    });
+
+  document.getElementById('resultSearch').addEventListener('input', function () {
+    var input = this.value.toLowerCase();
+    var cards = document.getElementsByClassName('result-card');
+    for (var i = 0; i < cards.length; i++) {
+      var h2 = cards[i].querySelector('h2');
+      var title = h2 ? h2.innerText.toLowerCase() : '';
+      cards[i].style.display = title.includes(input) ? 'flex' : 'none';
+    }
+    var empty = document.getElementById('results-empty');
+    if (empty) empty.style.display = input ? 'none' : '';
+  });
+})();
+
+function viewResult(pdfPath) {
+  document.getElementById('pdfViewer').src = pdfPath;
+  document.getElementById('resultModal').classList.remove('hidden');
+}
+function closeModal() {
+  document.getElementById('resultModal').classList.add('hidden');
+  document.getElementById('pdfViewer').src = '';
+}
+</script>
+<footer id="footer-placeholder"></footer>
+<script src="footer.js"></script>
+<script src="assets/animate.js" defer></script>
+</body>
+</html>

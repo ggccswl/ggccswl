@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lessons &amp; lectures | GGCC Sahiwal</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="assets/theme.css">
+</head>
+<body class="bg-gray-50 text-gray-800 antialiased">
+<div id="nav-root"></div>
+<script src="nav.js"></script>
+
+<main class="max-w-5xl mx-auto px-4 py-12">
+  <header class="animate-on-scroll mb-10" data-animate>
+    <h1 class="text-4xl font-black text-emerald-900">Lessons &amp; media</h1>
+    <p class="mt-3 text-gray-600 max-w-2xl">Video lessons, PDFs, and links published by the college. Content is managed in <a href="admin/" class="text-emerald-700 font-semibold underline">Admin</a> (staff only).</p>
+  </header>
+
+  <div id="lessons-offline" class="hidden mb-8 p-4 rounded-2xl bg-amber-50 border border-amber-200 text-amber-900 text-sm">
+    Run the college server (<code class="bg-amber-100 px-1 rounded">npm start</code> in <code class="bg-amber-100 px-1 rounded">server/</code>) to load lessons from the database. Opening this page as a raw file will not show dynamic content.
+  </div>
+
+  <div id="lessons-container" class="space-y-8"></div>
+</main>
+
+<footer id="footer-placeholder"></footer>
+<script src="footer.js"></script>
+<script src="assets/animate.js" defer></script>
+<script>
+(function () {
+  var container = document.getElementById('lessons-container');
+  var offline = document.getElementById('lessons-offline');
+
+  function card(html) {
+    var d = document.createElement('div');
+    d.className = 'bg-white rounded-3xl shadow-lg border border-emerald-100 overflow-hidden card-lift animate-on-scroll';
+    d.setAttribute('data-animate', '');
+    d.innerHTML = html;
+    return d;
+  }
+
+  fetch('/api/lessons', { credentials: 'same-origin' })
+    .then(function (r) {
+      if (!r.ok) throw new Error('api');
+      return r.json();
+    })
+    .then(function (list) {
+      offline.classList.add('hidden');
+      if (!list.length) {
+        container.appendChild(card(
+          '<div class="p-10 text-center text-gray-500">' +
+          '<p class="font-semibold text-gray-700 mb-2">No lessons published yet</p>' +
+          '<p class="text-sm">Staff can add YouTube links, uploaded videos, PDFs, or external links from the admin panel.</p>' +
+          '</div>'
+        ));
+        document.dispatchEvent(new Event('ggcc-dom-updated'));
+        return;
+      }
+      list.forEach(function (l) {
+        var body = '';
+        if (l.kind === 'youtube') {
+          body =
+            '<div class="aspect-video bg-black">' +
+            '<iframe class="w-full h-full" src="' + l.embedUrl + '" title="' + esc(l.title) + '" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>' +
+            '</div>';
+        } else if (l.kind === 'pdf') {
+          body =
+            '<div class="p-4 bg-emerald-50 border-b border-emerald-100 flex flex-wrap gap-3 items-center">' +
+            '<a href="' + l.url + '" download class="inline-flex items-center bg-emerald-700 text-white font-bold px-4 py-2 rounded-xl hover:bg-emerald-800 transition">Download PDF</a>' +
+            '<a href="' + l.url + '" target="_blank" rel="noopener" class="text-emerald-700 font-semibold hover:underline">Open in new tab</a>' +
+            '</div>' +
+            '<div class="h-96 bg-gray-100"><iframe src="' + l.url + '" class="w-full h-full border-0" title="PDF"></iframe></div>';
+        } else if (l.kind === 'file') {
+          body =
+            '<div class="p-6 bg-emerald-50 border-b border-emerald-100">' +
+            '<a href="' + l.url + '" download class="inline-flex bg-emerald-700 text-white font-bold px-4 py-2 rounded-xl hover:bg-emerald-800 transition">Download / open file</a>' +
+            '</div>' +
+            '<div class="p-4"><video class="w-full rounded-xl max-h-[480px]" controls src="' + l.url + '">Your browser does not support video.</video></div>';
+        } else if (l.kind === 'link') {
+          body =
+            '<div class="p-8 text-center">' +
+            '<a href="' + escAttr(l.externalUrl) + '" target="_blank" rel="noopener" class="inline-flex bg-emerald-700 text-white font-bold px-6 py-3 rounded-xl hover:bg-emerald-800 transition">Open resource</a>' +
+            '</div>';
+        }
+        var desc = l.description ? '<p class="text-gray-600 text-sm leading-relaxed mt-2">' + esc(l.description) + '</p>' : '';
+        container.appendChild(card(
+          '<div class="p-6 border-b border-emerald-50">' +
+          '<h2 class="text-xl font-bold text-emerald-900">' + esc(l.title) + '</h2>' +
+          desc +
+          '<p class="text-xs text-gray-400 mt-2">' + (l.createdAt || '').slice(0, 10) + '</p>' +
+          '</div>' + body
+        ));
+      });
+      document.dispatchEvent(new Event('ggcc-dom-updated'));
+    })
+    .catch(function () {
+      offline.classList.remove('hidden');
+      container.appendChild(card(
+        '<div class="p-10 text-center text-gray-600 text-sm">Could not reach <code class="bg-gray-100 px-1 rounded">/api/lessons</code>. Start the Node server from the <code class="bg-gray-100 px-1 rounded">server</code> folder.</div>'
+      ));
+      document.dispatchEvent(new Event('ggcc-dom-updated'));
+    });
+
+  function esc(s) {
+    if (!s) return '';
+    var d = document.createElement('div');
+    d.textContent = s;
+    return d.innerHTML;
+  }
+  function escAttr(s) {
+    if (!s) return '';
+    return String(s).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
+  }
+})();
+</script>
+</body>
+</html>

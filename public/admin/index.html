@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin | GGCC Sahiwal</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="../assets/theme.css">
+</head>
+<body class="bg-slate-900 text-slate-100 min-h-screen">
+  <div id="login-panel" class="min-h-screen flex items-center justify-center p-4">
+    <div class="w-full max-w-md bg-slate-800 rounded-2xl p-8 shadow-2xl border border-slate-700">
+      <h1 class="text-2xl font-black text-emerald-400 mb-1">Staff admin</h1>
+      <p class="text-slate-400 text-sm mb-6">Lessons, programs, lists, gallery, events, prospectus</p>
+      <form id="login-form" class="space-y-4">
+        <label class="block text-sm font-medium text-slate-300">Password</label>
+        <input type="password" id="login-password" autocomplete="current-password" class="w-full rounded-xl bg-slate-900 border border-slate-600 px-4 py-3 text-white focus:ring-2 focus:ring-emerald-500 outline-none" required>
+        <p id="login-error" class="text-red-400 text-sm hidden"></p>
+        <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-500 font-bold py-3 rounded-xl transition">Sign in</button>
+      </form>
+      <p class="text-xs text-slate-500 mt-6"><a href="../index.html" class="text-emerald-400 hover:underline">← Public site</a></p>
+    </div>
+  </div>
+
+  <div id="dash-panel" class="hidden min-h-screen">
+    <header class="bg-slate-800 border-b border-slate-700 sticky top-0 z-50">
+      <div class="max-w-6xl mx-auto px-4 py-4 flex flex-wrap items-center justify-between gap-4">
+        <div>
+          <span class="text-emerald-400 font-black text-lg">GGCC Admin</span>
+          <p class="text-xs text-slate-500">Students only see the public pages</p>
+        </div>
+        <div class="flex items-center gap-3">
+          <a href="../index.html" class="text-sm text-slate-400 hover:text-white">View site</a>
+          <button type="button" id="btn-logout" class="text-sm bg-slate-700 hover:bg-slate-600 px-4 py-2 rounded-lg">Logout</button>
+        </div>
+      </div>
+      <nav class="max-w-6xl mx-auto px-4 pb-3 flex flex-wrap gap-2 text-sm">
+        <button type="button" data-tab="lessons" class="tab-btn px-4 py-2 rounded-lg bg-emerald-600 text-white font-semibold">Lessons</button>
+        <button type="button" data-tab="programs" class="tab-btn px-4 py-2 rounded-lg bg-slate-700 text-slate-300 hover:bg-slate-600">Programs</button>
+        <button type="button" data-tab="students" class="tab-btn px-4 py-2 rounded-lg bg-slate-700 text-slate-300 hover:bg-slate-600">Student lists</button>
+        <button type="button" data-tab="gallery" class="tab-btn px-4 py-2 rounded-lg bg-slate-700 text-slate-300 hover:bg-slate-600">Gallery</button>
+        <button type="button" data-tab="events" class="tab-btn px-4 py-2 rounded-lg bg-slate-700 text-slate-300 hover:bg-slate-600">Events</button>
+        <button type="button" data-tab="prospectus" class="tab-btn px-4 py-2 rounded-lg bg-slate-700 text-slate-300 hover:bg-slate-600">Prospectus</button>
+      </nav>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-4 py-8">
+      <section id="tab-lessons" class="tab-content space-y-6">
+        <div class="bg-slate-800 rounded-2xl p-6 border border-slate-700">
+          <h2 class="text-lg font-bold text-white mb-4">Add lesson</h2>
+          <form id="form-lesson" class="grid gap-4 md:grid-cols-2">
+            <div class="md:col-span-2">
+              <label class="text-xs text-slate-400">Title</label>
+              <input name="title" required class="w-full mt-1 rounded-lg bg-slate-900 border border-slate-600 px-3 py-2 text-white">
+            </div>
+            <div class="md:col-span-2">
+              <label class="text-xs text-slate-400">Description (optional)</label>
+              <textarea name="description" rows="2" class="w-full mt-1 rounded-lg bg-slate-900 border border-slate-600 px-3 py-2 text-white"></textarea>
+            </div>
+            <div>
+              <label class="text-xs text-slate-400">Type</label>
+              <select name="kind" id="lesson-kind" class="w-full mt-1 rounded-lg bg-slate-900 border border-slate-600 px-3 py-2 text-white">
+                <option value="youtube">YouTube link</option>
+                <option value="upload">Upload video / file / PDF</option>
+                <option value="link">External link (any URL)</option>
+              </select>
+            </div>
+            <div id="lesson-youtube-wrap">
+              <label class="text-xs text-slate-400">YouTube URL</label>
+              <input name="youtubeUrl" placeholder="https://youtube.com/watch?v=..." class="w-full mt-1 rounded-lg bg-slate-900 border border-slate-600 px-3 py-2 text-white">
+            </div>
+            <div id="lesson-file-wrap" class="hidden md:col-span-2">
+              <label class="text-xs text-slate-400">File (video, PDF, etc.)</label>
+              <input type="file" name="file" class="w-full mt-1 text-slate-300 text-sm">
+            </div>
+            <div id="lesson-link-wrap" class="hidden md:col-span-2">
+              <label class="text-xs text-slate-400">URL</label>
+              <input name="externalUrl" placeholder="https://..." class="w-full mt-1 rounded-lg bg-slate-900 border border-slate-600 px-3 py-2 text-white">
+            </div>
+            <div class="md:col-span-2">
+              <button type="submit" class="bg-emerald-600 hover:bg-emerald-500 font-bold px-6 py-2 rounded-xl">Publish lesson</button>
+              <span id="lesson-msg" class="ml-4 text-sm text-emerald-400"></span>
+            </div>
+          </form>
+        </div>
+        <div class="bg-slate-800 rounded-2xl p-6 border border-slate-700">
+          <h2 class="text-lg font-bold text-white mb-4">Published lessons</h2>
+          <div id="lessons-admin-list" class="space-y-3 text-sm"></div>
+        </div>
+      </section>
+
+      <section id="tab-programs" class="tab-content hidden space-y-6">
+        <div class="bg-slate-800 rounded-2xl p-6 border border-slate-700">
+          <h2 class="text-lg font-bold text-white mb-2">Course offerings (Academics page)</h2>
+          <p class="text-slate-500 text-xs mb-4">These cards appear on the public <strong class="text-slate-300">Programs</strong> page under each tab. Syllabus tables on <strong class="text-slate-300">courses.html</strong> stay as static reference unless you edit HTML.</p>
+          <form id="form-offering" class="grid gap-4 md:grid-cols-2">
+            <input type="hidden" name="editId" id="offering-edit-id" value="">
+            <div>
+              <label class="text-xs text-slate-400">Tab / tier</label>
+              <select name="tier" required class="w-full mt-1 rounded-lg bg-slate-900 border border-slate-600 px-3 py-2 text-white">
+                <option value="intermediate">Intermediate &amp; diploma</option>
+                <option value="degree">ADP &amp; BS (semester)</option>
+                <option value="short">Short courses</option>
+              </select>
+            </div>
+            <div>
+              <label class="text-xs text-slate-400">Sort order (lower = first)</label>
+              <input type="number" name="sortOrder" value="0" class="w-full mt-1 rounded-lg bg-slate-900 border border-slate-600 px-3 py-2 text-white">
+            </div>
+            <div class="md:col-span-2">
+              <label class="text-xs text-slate-400">Title</label>
+              <input name="title" required class="w-full mt-1 rounded-lg bg-slate-900 border border-slate-600 px-3 py-2 text-white" placeholder="e.g. I.Com">
+            </div>
+            <div class="md:col-span-2">
+              <label class="text-xs text-slate-400">Description</label>
+              <textarea name="description" rows="3" required class="w-full mt-1 rounded-lg bg-slate-900 border border-slate-600 px-3 py-2 text-white" placeholder="Short summary for students"></textarea>
+            </div>
+            <div class="md:col-span-2">
+              <label class="text-xs text-slate-400">Link (optional)</label>
+              <input name="linkHref" class="w-full mt-1 rounded-lg bg-slate-900 border border-slate-600 px-3 py-2 text-white" placeholder="courses.html or https://…">
+              <p class="text-slate-600 text-[10px] mt-1">Leave empty for a non-clickable card.</p>
+            </div>
+            <div>
+              <label class="text-xs text-slate-400">Card style</label>
+              <select name="variant" class="w-full mt-1 rounded-lg bg-slate-900 border border-slate-600 px-3 py-2 text-white">
+                <option value="white">White (standard)</option>
+                <option value="gradient-emerald">Green gradient (BS-style)</option>
+                <option value="gradient-teal">Teal gradient</option>
+                <option value="boxed">Light green bordered (ADP-style)</option>
+              </select>
+            </div>
+            <div>
+              <label class="text-xs text-slate-400">Width</label>
+              <select name="colSpan" class="w-full mt-1 rounded-lg bg-slate-900 border border-slate-600 px-3 py-2 text-white">
+                <option value="1">One column</option>
+                <option value="2">Wide (2 columns on desktop)</option>
+              </select>
+            </div>
+            <div class="md:col-span-2">
+              <label class="text-xs text-slate-400">Footer line (optional, e.g. for gradient cards)</label>
+              <input name="footerText" class="w-full mt-1 rounded-lg bg-slate-900 border border-slate-600 px-3 py-2 text-white" placeholder="50 seats · View outlines →">
+            </div>
+            <div class="md:col-span-2 flex flex-wrap gap-3 items-center">
+              <button type="submit" class="bg-emerald-600 hover:bg-emerald-500 font-bold px-6 py-2 rounded-xl" id="offering-submit-btn">Save program</button>
+              <button type="button" id="offering-cancel-edit" class="hidden text-slate-400 hover:text-white text-sm">Cancel edit</button>
+              <span id="offering-msg" class="text-sm text-emerald-400"></span>
+            </div>
+          </form>
+        </div>
+        <div class="bg-slate-800 rounded-2xl p-6 border border-slate-700">
+          <div class="flex flex-wrap justify-between items-center gap-4 mb-4">
+            <h2 class="text-lg font-bold text-white">Current offerings</h2>
+            <button type="button" id="offering-reset-defaults" class="text-xs bg-amber-900/50 text-amber-200 border border-amber-700/50 px-3 py-2 rounded-lg hover:bg-amber-900">Reset to built-in defaults</button>
+          </div>
+          <div id="programs-admin-list" class="space-y-4 text-sm"></div>
+        </div>
+      </section>
+
+      <section id="tab-students" class="tab-content hidden space-y-6">
+        <div class="bg-slate-800 rounded-2xl p-6 border border-slate-700">
+          <h2 class="text-lg font-bold text-white mb-4">Add admission / result list (PDF)</h2>
+          <form id="form-student-list" class="grid gap-4 md:grid-cols-2">
+            <div class="md:col-span-2">
+              <label class="text-xs text-slate-400">Title (e.g. Merit list I.Com 2026)</label>
+              <input name="title" required class="w-full mt-1 rounded-lg bg-slate-900 border border-slate-600 px-3 py-2 text-white">
+            </div>
+            <div>
+              <label class="text-xs text-slate-400">Category</label>
+              <select name="category" class="w-full mt-1 rounded-lg bg-slate-900 border border-slate-600 px-3 py-2 text-white">
+                <option value="admission">Admission</option>
+                <option value="result">Result</option>
+              </select>
+            </div>
+            <div>
+              <label class="text-xs text-slate-400">Session / year (optional)</label>
+              <input name="sessionYear" placeholder="2025-26" class="w-full mt-1 rounded-lg bg-slate-900 border border-slate-600 px-3 py-2 text-white">
+            </div>
+            <div class="md:col-span-2">
+              <label class="text-xs text-slate-400">PDF file</label>
+              <input type="file" name="pdf" accept=".pdf,application/pdf" required class="w-full mt-1 text-slate-300">
+            </div>
+            <div class="md:col-span-2">
+              <button type="submit" class="bg-emerald-600 hover:bg-emerald-500 font-bold px-6 py-2 rounded-xl">Upload list</button>
+              <span id="student-msg" class="ml-4 text-sm text-emerald-400"></span>
+            </div>
+          </form>
+        </div>
+        <div class="bg-slate-800 rounded-2xl p-6 border border-slate-700">
+          <h2 class="text-lg font-bold text-white mb-4">Lists on the site</h2>
+          <div id="students-admin-list" class="space-y-3 text-sm"></div>
+        </div>
+      </section>
+
+      <section id="tab-gallery" class="tab-content hidden space-y-6">
+        <div class="bg-slate-800 rounded-2xl p-6 border border-slate-700">
+          <h2 class="text-lg font-bold text-white mb-2">Add gallery photo</h2>
+          <p class="text-slate-500 text-xs mb-4 leading-relaxed">Public site is view-only. <strong class="text-slate-300">Academic / online</strong> → Media Gallery page (top section). For <strong class="text-slate-300">campus events</strong> photos, use the <strong class="text-emerald-400">Events</strong> tab (same data as “Campus events” here) — they appear on the Events page and Media Gallery.</p>
+          <form id="form-gallery" class="grid gap-4 md:grid-cols-2">
+            <div class="md:col-span-2">
+              <label class="text-xs text-slate-400">Title</label>
+              <input name="title" required class="w-full mt-1 rounded-lg bg-slate-900 border border-slate-600 px-3 py-2 text-white">
+            </div>
+            <div>
+              <label class="text-xs text-slate-400">Category</label>
+              <select name="category" class="w-full mt-1 rounded-lg bg-slate-900 border border-slate-600 px-3 py-2 text-white">
+                <option value="academic">Academic / online</option>
+                <option value="events">Campus events</option>
+              </select>
+            </div>
+            <div class="md:col-span-2">
+              <label class="text-xs text-slate-400">Image</label>
+              <input type="file" name="image" accept="image/*" required class="w-full mt-1 text-slate-300">
+            </div>
+            <div class="md:col-span-2">
+              <button type="submit" class="bg-emerald-600 hover:bg-emerald-500 font-bold px-6 py-2 rounded-xl">Upload</button>
+              <span id="gallery-msg" class="ml-4 text-sm text-emerald-400"></span>
+            </div>
+          </form>
+        </div>
+        <div class="bg-slate-800 rounded-2xl p-6 border border-slate-700">
+          <h2 class="text-lg font-bold text-white mb-4">Gallery items</h2>
+          <div id="gallery-admin-list" class="grid sm:grid-cols-2 gap-4 text-sm"></div>
+        </div>
+      </section>
+
+      <section id="tab-events" class="tab-content hidden space-y-6">
+        <div class="bg-slate-800 rounded-2xl p-6 border border-slate-700">
+          <h2 class="text-lg font-bold text-white mb-2">Campus events</h2>
+          <p class="text-slate-500 text-xs mb-4 leading-relaxed">Photos here show on the public <strong class="text-slate-300">Events</strong> page and in the events section of Media Gallery. Title is searchable on the Events page.</p>
+          <form id="form-events" class="grid gap-4 md:grid-cols-2">
+            <div class="md:col-span-2">
+              <label class="text-xs text-slate-400">Event title</label>
+              <input name="title" required placeholder="e.g. Spring sports day 2026" class="w-full mt-1 rounded-lg bg-slate-900 border border-slate-600 px-3 py-2 text-white">
+            </div>
+            <input type="hidden" name="category" value="events">
+            <div class="md:col-span-2">
+              <label class="text-xs text-slate-400">Photo</label>
+              <input type="file" name="image" accept="image/*" required class="w-full mt-1 text-slate-300">
+            </div>
+            <div class="md:col-span-2">
+              <button type="submit" class="bg-emerald-600 hover:bg-emerald-500 font-bold px-6 py-2 rounded-xl">Add event photo</button>
+              <span id="events-msg" class="ml-4 text-sm text-emerald-400"></span>
+            </div>
+          </form>
+        </div>
+        <div class="bg-slate-800 rounded-2xl p-6 border border-slate-700">
+          <h2 class="text-lg font-bold text-white mb-4">Event photos on the site</h2>
+          <div id="events-admin-list" class="grid sm:grid-cols-2 gap-4 text-sm"></div>
+        </div>
+      </section>
+
+      <section id="tab-prospectus" class="tab-content hidden space-y-6">
+        <div class="bg-slate-800 rounded-2xl p-6 border border-slate-700">
+          <h2 class="text-lg font-bold text-white mb-4">College prospectus (PDF)</h2>
+          <p class="text-slate-400 text-sm mb-4">Upload replaces the file used for public download. If nothing is uploaded, the site serves a small placeholder PDF so links never break.</p>
+          <form id="form-prospectus" class="space-y-4 max-w-md">
+            <input type="file" name="pdf" accept=".pdf,application/pdf" required class="w-full text-slate-300">
+            <button type="submit" class="bg-emerald-600 hover:bg-emerald-500 font-bold px-6 py-2 rounded-xl">Upload prospectus</button>
+            <span id="prospectus-msg" class="block text-sm text-emerald-400"></span>
+          </form>
+          <p class="mt-6 text-xs text-slate-500 space-y-1">
+            <span class="block">Public <strong class="text-slate-400">download</strong> (save file): <code class="text-emerald-400 break-all" id="prospectus-download-hint"></code></span>
+            <span class="block">In-browser <strong class="text-slate-400">view</strong>: <code class="text-slate-400 break-all" id="prospectus-view-hint"></code></span>
+          </p>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    const api = (path, opts = {}) => fetch(path, { credentials: 'include', ...opts });
+
+    async function checkSession() {
+      const r = await api('/api/auth/me');
+      const j = await r.json();
+      if (j.admin) {
+        document.getElementById('login-panel').classList.add('hidden');
+        document.getElementById('dash-panel').classList.remove('hidden');
+        document.getElementById('prospectus-download-hint').textContent =
+          location.origin + '/api/prospectus/file?download=1';
+        document.getElementById('prospectus-view-hint').textContent = location.origin + '/api/prospectus/file';
+        loadAllAdmin();
+      }
+    }
+
+    document.getElementById('login-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const err = document.getElementById('login-error');
+      err.classList.add('hidden');
+      const password = document.getElementById('login-password').value;
+      const r = await api('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password }),
+      });
+      if (r.ok) {
+        document.getElementById('login-panel').classList.add('hidden');
+        document.getElementById('dash-panel').classList.remove('hidden');
+        document.getElementById('prospectus-download-hint').textContent =
+          location.origin + '/api/prospectus/file?download=1';
+        document.getElementById('prospectus-view-hint').textContent = location.origin + '/api/prospectus/file';
+        loadAllAdmin();
+      } else {
+        err.textContent = 'Wrong password';
+        err.classList.remove('hidden');
+      }
+    });
+
+    document.getElementById('btn-logout').addEventListener('click', async () => {
+      await api('/api/auth/logout', { method: 'POST' });
+      location.reload();
+    });
+
+    document.querySelectorAll('.tab-btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const tab = btn.getAttribute('data-tab');
+        document.querySelectorAll('.tab-btn').forEach((b) => {
+          b.classList.remove('bg-emerald-600', 'text-white', 'font-semibold');
+          b.classList.add('bg-slate-700', 'text-slate-300');
+        });
+        btn.classList.add('bg-emerald-600', 'text-white', 'font-semibold');
+        btn.classList.remove('bg-slate-700', 'text-slate-300');
+        document.querySelectorAll('.tab-content').forEach((s) => s.classList.add('hidden'));
+        document.getElementById('tab-' + tab).classList.remove('hidden');
+      });
+    });
+
+    const kindSel = document.getElementById('lesson-kind');
+    function syncLessonForm() {
+      const k = kindSel.value;
+      document.getElementById('lesson-youtube-wrap').classList.toggle('hidden', k !== 'youtube');
+      document.getElementById('lesson-file-wrap').classList.toggle('hidden', k !== 'upload');
+      document.getElementById('lesson-link-wrap').classList.toggle('hidden', k !== 'link');
+    }
+    kindSel.addEventListener('change', syncLessonForm);
+    syncLessonForm();
+
+    document.getElementById('form-lesson').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const msg = document.getElementById('lesson-msg');
+      msg.textContent = '';
+      const fd = new FormData(e.target);
+      const kind = fd.get('kind');
+      const body = new FormData();
+      body.append('title', fd.get('title'));
+      body.append('description', fd.get('description') || '');
+      body.append('kind', kind === 'upload' ? 'upload' : kind);
+      if (kind === 'youtube') body.append('youtubeUrl', fd.get('youtubeUrl') || '');
+      if (kind === 'link') body.append('externalUrl', fd.get('externalUrl') || '');
+      if (kind === 'upload') {
+        const f = e.target.querySelector('input[name=file]').files[0];
+        if (!f) { msg.textContent = 'Choose a file'; return; }
+        body.append('file', f);
+      }
+      const r = await api('/api/lessons', { method: 'POST', body });
+      const j = await r.json().catch(() => ({}));
+      if (r.ok) {
+        msg.textContent = 'Saved';
+        e.target.reset();
+        syncLessonForm();
+        loadLessonsAdmin();
+      } else msg.textContent = j.error || 'Failed';
+    });
+
+    document.getElementById('form-student-list').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const msg = document.getElementById('student-msg');
+      msg.textContent = '';
+      const fd = new FormData(e.target);
+      const r = await api('/api/student-lists', { method: 'POST', body: fd });
+      const j = await r.json().catch(() => ({}));
+      if (r.ok) {
+        msg.textContent = 'Uploaded';
+        e.target.reset();
+        loadStudentsAdmin();
+      } else msg.textContent = j.error || 'Failed';
+    });
+
+    document.getElementById('form-gallery').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const msg = document.getElementById('gallery-msg');
+      msg.textContent = '';
+      const fd = new FormData(e.target);
+      const r = await api('/api/gallery', { method: 'POST', body: fd });
+      const j = await r.json().catch(() => ({}));
+      if (r.ok) {
+        msg.textContent = 'Uploaded';
+        e.target.reset();
+        loadGalleryAdmin();
+        loadEventsAdmin();
+      } else msg.textContent = j.error || 'Failed';
+    });
+
+    document.getElementById('form-events').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const msg = document.getElementById('events-msg');
+      msg.textContent = '';
+      const fd = new FormData(e.target);
+      const r = await api('/api/gallery', { method: 'POST', body: fd });
+      const j = await r.json().catch(() => ({}));
+      if (r.ok) {
+        msg.textContent = 'Saved';
+        e.target.reset();
+        loadEventsAdmin();
+        loadGalleryAdmin();
+      } else msg.textContent = j.error || 'Failed';
+    });
+
+    document.getElementById('form-prospectus').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const msg = document.getElementById('prospectus-msg');
+      msg.textContent = '';
+      const fd = new FormData(e.target);
+      const r = await api('/api/admin/prospectus', { method: 'POST', body: fd });
+      const j = await r.json().catch(() => ({}));
+      if (r.ok) msg.textContent = 'Prospectus updated — public download is live.';
+      else msg.textContent = j.error || 'Failed';
+    });
+
+    let offeringsCache = [];
+
+    function resetOfferingForm() {
+      const f = document.getElementById('form-offering');
+      f.reset();
+      document.getElementById('offering-edit-id').value = '';
+      document.getElementById('offering-cancel-edit').classList.add('hidden');
+      document.getElementById('offering-submit-btn').textContent = 'Save program';
+    }
+
+    document.getElementById('offering-cancel-edit').addEventListener('click', resetOfferingForm);
+
+    document.getElementById('form-offering').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const msg = document.getElementById('offering-msg');
+      msg.textContent = '';
+      const fd = new FormData(e.target);
+      const editId = fd.get('editId');
+      const body = {
+        tier: fd.get('tier'),
+        title: fd.get('title'),
+        description: fd.get('description'),
+        linkHref: fd.get('linkHref') || '',
+        variant: fd.get('variant'),
+        colSpan: fd.get('colSpan') === '2' ? 2 : 1,
+        footerText: fd.get('footerText') || '',
+        sortOrder: Number(fd.get('sortOrder')) || 0,
+      };
+      const url = editId ? '/api/course-offerings/' + editId : '/api/course-offerings';
+      const method = editId ? 'PATCH' : 'POST';
+      const r = await api(url, {
+        method,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+      });
+      const j = await r.json().catch(() => ({}));
+      if (r.ok) {
+        msg.textContent = editId ? 'Updated' : 'Added';
+        resetOfferingForm();
+        loadProgramsAdmin();
+      } else msg.textContent = j.error || 'Failed';
+    });
+
+    document.getElementById('offering-reset-defaults').addEventListener('click', async () => {
+      if (!confirm('Replace ALL program cards with the original built-in list? Custom entries will be removed.')) return;
+      const r = await api('/api/course-offerings/reset-defaults', { method: 'POST' });
+      if (r.ok) loadProgramsAdmin();
+    });
+
+    async function loadProgramsAdmin() {
+      const r = await api('/api/course-offerings');
+      offeringsCache = await r.json();
+      const el = document.getElementById('programs-admin-list');
+      if (!offeringsCache.length) {
+        el.innerHTML = '<p class="text-slate-500">No offerings</p>';
+        return;
+      }
+      const byTier = { intermediate: [], degree: [], short: [] };
+      offeringsCache.forEach((o) => {
+        if (byTier[o.tier]) byTier[o.tier].push(o);
+      });
+      ['intermediate', 'degree', 'short'].forEach((tier) => {
+        byTier[tier].sort((a, b) => (a.sortOrder || 0) - (b.sortOrder || 0));
+      });
+      const tierLabels = { intermediate: 'Intermediate & diploma', degree: 'ADP & BS', short: 'Short courses' };
+      el.innerHTML = ['intermediate', 'degree', 'short']
+        .map((tier) => {
+          const items = byTier[tier];
+          if (!items.length) return '';
+          return (
+            '<div class="mb-4"><p class="text-slate-400 text-xs font-bold uppercase mb-2">' +
+            tierLabels[tier] +
+            '</p><div class="space-y-2">' +
+            items
+              .map(
+                (o) =>
+                  '<div class="flex flex-wrap justify-between gap-2 bg-slate-900/80 p-3 rounded-xl border border-slate-600">' +
+                  '<div><p class="font-semibold text-white">' +
+                  escapeHtml(o.title) +
+                  '</p><p class="text-slate-500 text-xs">' +
+                  escapeHtml(o.variant) +
+                  ' · order ' +
+                  o.sortOrder +
+                  '</p></div>' +
+                  '<div class="flex gap-2">' +
+                  '<button type="button" data-edit-offering="' +
+                  o.id +
+                  '" class="text-emerald-400 text-sm font-bold">Edit</button>' +
+                  '<button type="button" data-del-offering="' +
+                  o.id +
+                  '" class="text-red-400 text-sm font-bold">Delete</button>' +
+                  '</div></div>'
+              )
+              .join('') +
+            '</div></div>'
+          );
+        })
+        .join('');
+      el.querySelectorAll('[data-edit-offering]').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const id = btn.getAttribute('data-edit-offering');
+          const row = offeringsCache.find((x) => x.id === id);
+          if (!row) return;
+          const f = document.getElementById('form-offering');
+          document.getElementById('offering-edit-id').value = row.id;
+          f.tier.value = row.tier;
+          f.sortOrder.value = row.sortOrder ?? 0;
+          f.title.value = row.title;
+          f.description.value = row.description;
+          f.linkHref.value = row.linkHref || '';
+          f.variant.value = row.variant;
+          f.colSpan.value = row.colSpan === 2 ? '2' : '1';
+          f.footerText.value = row.footerText || '';
+          document.getElementById('offering-cancel-edit').classList.remove('hidden');
+          document.getElementById('offering-submit-btn').textContent = 'Update program';
+          f.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+      });
+      el.querySelectorAll('[data-del-offering]').forEach((btn) => {
+        btn.addEventListener('click', async () => {
+          if (!confirm('Delete this program card?')) return;
+          await api('/api/course-offerings/' + btn.getAttribute('data-del-offering'), { method: 'DELETE' });
+          loadProgramsAdmin();
+        });
+      });
+    }
+
+    async function loadLessonsAdmin() {
+      const r = await api('/api/lessons');
+      const list = await r.json();
+      const el = document.getElementById('lessons-admin-list');
+      if (!list.length) { el.innerHTML = '<p class="text-slate-500">No lessons yet</p>'; return; }
+      el.innerHTML = list.map((l) => `
+        <div class="flex flex-wrap items-center justify-between gap-2 bg-slate-900/80 p-3 rounded-xl border border-slate-600">
+          <div>
+            <p class="font-semibold text-white">${escapeHtml(l.title)}</p>
+            <p class="text-slate-500 text-xs">${l.kind} · ${(l.createdAt || '').slice(0, 10)}</p>
+          </div>
+          <button type="button" data-del-lesson="${l.id}" class="text-red-400 hover:text-red-300 text-sm font-bold">Delete</button>
+        </div>`).join('');
+      el.querySelectorAll('[data-del-lesson]').forEach((b) => {
+        b.addEventListener('click', async () => {
+          if (!confirm('Delete this lesson?')) return;
+          await api('/api/lessons/' + b.getAttribute('data-del-lesson'), { method: 'DELETE' });
+          loadLessonsAdmin();
+        });
+      });
+    }
+
+    async function loadStudentsAdmin() {
+      const r = await api('/api/student-lists');
+      const list = await r.json();
+      const el = document.getElementById('students-admin-list');
+      if (!list.length) { el.innerHTML = '<p class="text-slate-500">No lists yet</p>'; return; }
+      el.innerHTML = list.map((l) => `
+        <div class="flex flex-wrap items-center justify-between gap-2 bg-slate-900/80 p-3 rounded-xl border border-slate-600">
+          <div>
+            <p class="font-semibold text-white">${escapeHtml(l.title)}</p>
+            <p class="text-slate-500 text-xs">${l.category} · ${escapeHtml(l.sessionYear || '')}</p>
+          </div>
+          <button type="button" data-del-student="${l.id}" class="text-red-400 hover:text-red-300 text-sm font-bold">Delete</button>
+        </div>`).join('');
+      el.querySelectorAll('[data-del-student]').forEach((b) => {
+        b.addEventListener('click', async () => {
+          if (!confirm('Delete this PDF list?')) return;
+          await api('/api/student-lists/' + b.getAttribute('data-del-student'), { method: 'DELETE' });
+          loadStudentsAdmin();
+        });
+      });
+    }
+
+    async function loadGalleryAdmin() {
+      const r = await api('/api/gallery');
+      const list = await r.json();
+      const el = document.getElementById('gallery-admin-list');
+      if (!list.length) { el.innerHTML = '<p class="text-slate-500 col-span-2">No photos yet</p>'; return; }
+      el.innerHTML = list.map((g) => `
+        <div class="bg-slate-900/80 rounded-xl border border-slate-600 overflow-hidden">
+          <img src="${g.imageUrl}" alt="" class="w-full h-36 object-cover">
+          <div class="p-3 flex justify-between items-start gap-2">
+            <p class="font-semibold text-white text-sm">${escapeHtml(g.title)}</p>
+            <button type="button" data-del-gal="${g.id}" class="text-red-400 text-xs font-bold shrink-0">Delete</button>
+          </div>
+        </div>`).join('');
+      el.querySelectorAll('[data-del-gal]').forEach((b) => {
+        b.addEventListener('click', async () => {
+          if (!confirm('Delete this image?')) return;
+          await api('/api/gallery/' + b.getAttribute('data-del-gal'), { method: 'DELETE' });
+          loadGalleryAdmin();
+          loadEventsAdmin();
+        });
+      });
+    }
+
+    async function loadEventsAdmin() {
+      const r = await api('/api/gallery?category=events');
+      const list = await r.json();
+      const el = document.getElementById('events-admin-list');
+      if (!el) return;
+      if (!list.length) {
+        el.innerHTML = '<p class="text-slate-500 col-span-2">No event photos yet</p>';
+        return;
+      }
+      el.innerHTML = list
+        .map(
+          (g) => `
+        <div class="bg-slate-900/80 rounded-xl border border-slate-600 overflow-hidden">
+          <img src="${g.imageUrl}" alt="" class="w-full h-36 object-cover">
+          <div class="p-3 flex justify-between items-start gap-2">
+            <p class="font-semibold text-white text-sm">${escapeHtml(g.title)}</p>
+            <button type="button" data-del-event="${g.id}" class="text-red-400 text-xs font-bold shrink-0">Delete</button>
+          </div>
+        </div>`
+        )
+        .join('');
+      el.querySelectorAll('[data-del-event]').forEach((b) => {
+        b.addEventListener('click', async () => {
+          if (!confirm('Delete this event photo?')) return;
+          await api('/api/gallery/' + b.getAttribute('data-del-event'), { method: 'DELETE' });
+          loadEventsAdmin();
+          loadGalleryAdmin();
+        });
+      });
+    }
+
+    function escapeHtml(s) {
+      if (!s) return '';
+      return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
+    }
+
+    function loadAllAdmin() {
+      loadLessonsAdmin();
+      loadProgramsAdmin();
+      loadStudentsAdmin();
+      loadGalleryAdmin();
+      loadEventsAdmin();
+    }
+
+    checkSession();
+  </script>
+</body>
+</html>

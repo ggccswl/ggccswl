@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Events Gallery | GGCC Sahiwal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="assets/theme.css">
+</head>
+<body class="bg-gray-50 text-gray-800 antialiased">
+<div id="nav-root"></div>
+<script src="nav.js"></script>
+
+<main class="max-w-7xl mx-auto py-12 px-4">
+    <h1 class="animate-on-scroll text-4xl font-black text-center mb-3 text-emerald-900" data-animate>Campus events</h1>
+    <p class="animate-on-scroll text-center text-gray-600 mb-4 max-w-xl mx-auto" data-animate>Event photos are added in <a href="admin/" class="text-emerald-700 font-bold underline">Admin → Events</a> (or Gallery → <strong>Campus events</strong>).</p>
+    <p id="events-offline" class="hidden text-center text-amber-800 text-sm bg-amber-50 border border-amber-200 rounded-xl px-4 py-3 max-w-xl mx-auto mb-8">Could not load photos. Start the site server from the <code class="bg-amber-100 px-1 rounded">server</code> folder.</p>
+
+    <div class="max-w-md mx-auto mb-10 animate-on-scroll" data-animate>
+        <label class="sr-only" for="gallerySearch">Search events</label>
+        <input type="search" id="gallerySearch" placeholder="Search by title…" class="w-full p-4 rounded-2xl border-2 border-emerald-200 shadow-sm focus:ring-2 focus:ring-emerald-500 outline-none transition" aria-label="Filter gallery">
+    </div>
+
+    <div id="eventsGallery" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"></div>
+</main>
+
+<script>
+(function () {
+  var galleryEl = document.getElementById('eventsGallery');
+  var offline = document.getElementById('events-offline');
+  var allCards = [];
+
+  function buildCard(g) {
+    var wrap = document.createElement('div');
+    wrap.className = 'group gallery-card bg-white rounded-2xl shadow-md overflow-hidden card-lift border border-emerald-50';
+    var img = document.createElement('img');
+    img.src = g.imageUrl;
+    img.alt = '';
+    img.className = 'w-full h-60 object-cover transition duration-500 group-hover:scale-105 bg-gray-100';
+    img.loading = 'lazy';
+    var body = document.createElement('div');
+    body.className = 'p-5';
+    var h2 = document.createElement('h2');
+    h2.className = 'font-bold text-xl text-gray-900';
+    h2.textContent = g.title || 'Event';
+    body.appendChild(h2);
+    wrap.appendChild(img);
+    wrap.appendChild(body);
+    return wrap;
+  }
+
+  function render(list) {
+    galleryEl.innerHTML = '';
+    allCards = [];
+    if (!list.length) {
+      var empty = document.createElement('p');
+      empty.className = 'col-span-full text-center text-gray-500 py-16 bg-white rounded-2xl border border-dashed border-emerald-200 text-sm max-w-lg mx-auto';
+      empty.textContent = 'No event photos yet. Staff can upload images in Admin → Gallery (Campus events).';
+      galleryEl.appendChild(empty);
+      return;
+    }
+    list.forEach(function (g) {
+      var c = buildCard(g);
+      allCards.push(c);
+      galleryEl.appendChild(c);
+    });
+    document.dispatchEvent(new Event('ggcc-dom-updated'));
+  }
+
+  document.getElementById('gallerySearch').addEventListener('input', function () {
+    var q = this.value.toLowerCase().trim();
+    allCards.forEach(function (card) {
+      var h2 = card.querySelector('h2');
+      var title = h2 ? h2.textContent.toLowerCase() : '';
+      card.style.display = !q || title.includes(q) ? '' : 'none';
+    });
+  });
+
+  fetch('/api/gallery?category=events', { credentials: 'same-origin' })
+    .then(function (r) {
+      if (!r.ok) throw new Error('offline');
+      return r.json();
+    })
+    .then(function (list) {
+      offline.classList.add('hidden');
+      render(list);
+    })
+    .catch(function () {
+      offline.classList.remove('hidden');
+      render([]);
+    });
+})();
+</script>
+<footer id="footer-placeholder"></footer>
+<script src="footer.js"></script>
+<script src="assets/animate.js" defer></script>
+</body>
+</html>

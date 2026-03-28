@@ -1,0 +1,99 @@
+{
+  "lessons": [],
+  "studentLists": [],
+  "gallery": [],
+  "settings": {
+    "prospectusRelativePath": null,
+    "courseOfferingsInitialized": true
+  },
+  "courseOfferings": [
+    {
+      "id": "8678d524-5110-4e64-bbd7-597d4c1d1566",
+      "tier": "intermediate",
+      "title": "I.Com",
+      "description": "Accounting, commerce, economics, business maths & statistics — BISE Sahiwal. 110 seats (prospectus).",
+      "linkHref": "courses.html",
+      "variant": "white",
+      "colSpan": 1,
+      "footerText": "",
+      "sortOrder": 0
+    },
+    {
+      "id": "fbe6d231-46d2-419d-9c1a-73958c1dd162",
+      "tier": "intermediate",
+      "title": "ICS",
+      "description": "Multiple combinations: CS with Maths/Eco, Stats/Eco, or Stats/Maths — 110 seats.",
+      "linkHref": "courses.html",
+      "variant": "white",
+      "colSpan": 1,
+      "footerText": "",
+      "sortOrder": 1
+    },
+    {
+      "id": "5ad33cd9-e1ef-4940-8497-b97291e26d31",
+      "tier": "intermediate",
+      "title": "F.A. (IT)",
+      "description": "Information technology, Islamiat elective, economics — 1200 marks over two years.",
+      "linkHref": "courses.html",
+      "variant": "white",
+      "colSpan": 1,
+      "footerText": "",
+      "sortOrder": 2
+    },
+    {
+      "id": "bb01bc11-d9bd-410e-9efa-46fc126eba2e",
+      "tier": "intermediate",
+      "title": "D.Com (PBTE)",
+      "description": "1st shift 135 seats; 2nd shift (boys) 90 seats — light blue shirt in summer for 2nd shift.",
+      "linkHref": "courses.html",
+      "variant": "white",
+      "colSpan": 2,
+      "footerText": "",
+      "sortOrder": 3
+    },
+    {
+      "id": "b997d5bc-bab4-4b24-933c-693fd52afda6",
+      "tier": "degree",
+      "title": "BS Commerce",
+      "description": "Eight semesters: management, marketing, finance, e-commerce, taxation, internship & viva — GCUF external finals.",
+      "linkHref": "courses.html",
+      "variant": "gradient-emerald",
+      "colSpan": 1,
+      "footerText": "50 seats · View outlines →",
+      "sortOrder": 4
+    },
+    {
+      "id": "d6617c8f-2072-488a-8457-1b1a98aebd88",
+      "tier": "degree",
+      "title": "BS Accounting & Finance",
+      "description": "Professional accounting, audit, corporate finance, Islamic banking, financial modelling, and more.",
+      "linkHref": "courses.html",
+      "variant": "gradient-teal",
+      "colSpan": 1,
+      "footerText": "50 seats · View outlines →",
+      "sortOrder": 5
+    },
+    {
+      "id": "5785689f-e5d3-4c71-b89d-ab8157ef182b",
+      "tier": "degree",
+      "title": "ADP Commerce",
+      "description": "Two-year associate degree under semester system — 60 seats. Foundation for career entry or lateral progression.",
+      "linkHref": "courses.html",
+      "variant": "boxed",
+      "colSpan": 2,
+      "footerText": "",
+      "sortOrder": 6
+    },
+    {
+      "id": "0bba37d3-ec4b-4988-a107-883b0b0fe38d",
+      "tier": "short",
+      "title": "CCA (6 months)",
+      "description": "Certificate in Computer Applications offered through PBTE Lahore — introduced in 2020. Contact the college office for the latest PBTE session schedule.",
+      "linkHref": "courses.html",
+      "variant": "white",
+      "colSpan": 1,
+      "footerText": "",
+      "sortOrder": 7
+    }
+  ]
+}

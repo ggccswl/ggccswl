@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Programs | GGCC Sahiwal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="//unpkg.com/alpinejs" defer></script>
+    <link rel="stylesheet" href="assets/theme.css">
+</head>
+<body class="bg-gray-50 text-gray-800 antialiased">
+<div id="nav-root"></div>
+<script src="nav.js"></script>
+
+<main class="max-w-6xl mx-auto py-12 px-4" x-data="{ activeTab: 'intermediate' }">
+    <header data-animate class="animate-on-scroll mb-10">
+        <h1 class="text-4xl font-black text-emerald-900">Academic programs</h1>
+        <p class="mt-3 text-gray-600 max-w-2xl">Program cards below are maintained in <a href="admin/" class="text-emerald-700 font-semibold underline">Admin → Programs</a>. Detailed syllabi remain on the <a href="courses.html" class="text-emerald-700 font-semibold underline">course outlines</a> page.</p>
+    </header>
+
+    <p id="offerings-offline" class="hidden text-slate-700 text-sm bg-slate-100 border border-slate-200 rounded-xl px-4 py-3 mb-6"></p>
+
+    <div class="flex flex-wrap gap-2 border-b border-emerald-200 mb-8">
+        <button type="button" @click="activeTab = 'intermediate'" :class="activeTab === 'intermediate' ? 'bg-emerald-700 text-white shadow-md' : 'bg-white text-gray-600 hover:bg-emerald-50'" class="py-2.5 px-5 rounded-t-xl font-semibold text-sm transition">Intermediate &amp; diploma</button>
+        <button type="button" @click="activeTab = 'degree'" :class="activeTab === 'degree' ? 'bg-emerald-700 text-white shadow-md' : 'bg-white text-gray-600 hover:bg-emerald-50'" class="py-2.5 px-5 rounded-t-xl font-semibold text-sm transition">ADP &amp; BS (semester)</button>
+        <button type="button" @click="activeTab = 'short'" :class="activeTab === 'short' ? 'bg-emerald-700 text-white shadow-md' : 'bg-white text-gray-600 hover:bg-emerald-50'" class="py-2.5 px-5 rounded-t-xl font-semibold text-sm transition">Short courses</button>
+    </div>
+
+    <div x-show="activeTab === 'intermediate'" x-cloak class="grid md:grid-cols-2 lg:grid-cols-3 gap-6" id="offerings-intermediate"></div>
+
+    <div x-show="activeTab === 'degree'" x-cloak class="grid md:grid-cols-2 gap-6" id="offerings-degree"></div>
+
+    <div x-show="activeTab === 'short'" x-cloak class="max-w-xl mx-auto space-y-6" id="offerings-short"></div>
+
+    <script>
+    (function () {
+      var offline = document.getElementById('offerings-offline');
+      var FALLBACK_OFFERINGS = [
+        { tier: 'intermediate', title: 'I.Com', description: 'Accounting, commerce, economics, business maths & statistics — BISE Sahiwal. 110 seats (prospectus).', linkHref: 'courses.html', variant: 'white', colSpan: 1, footerText: '', sortOrder: 0 },
+        { tier: 'intermediate', title: 'ICS', description: 'Multiple combinations: CS with Maths/Eco, Stats/Eco, or Stats/Maths — 110 seats.', linkHref: 'courses.html', variant: 'white', colSpan: 1, footerText: '', sortOrder: 1 },
+        { tier: 'intermediate', title: 'F.A. (IT)', description: 'Information technology, Islamiat elective, economics — 1200 marks over two years.', linkHref: 'courses.html', variant: 'white', colSpan: 1, footerText: '', sortOrder: 2 },
+        { tier: 'intermediate', title: 'D.Com (PBTE)', description: '1st shift 135 seats; 2nd shift (boys) 90 seats — light blue shirt in summer for 2nd shift.', linkHref: 'courses.html', variant: 'white', colSpan: 2, footerText: '', sortOrder: 3 },
+        { tier: 'degree', title: 'BS Commerce', description: 'Eight semesters: management, marketing, finance, e-commerce, taxation, internship & viva — GCUF external finals.', linkHref: 'courses.html', variant: 'gradient-emerald', colSpan: 1, footerText: '50 seats · View outlines →', sortOrder: 0 },
+        { tier: 'degree', title: 'BS Accounting & Finance', description: 'Professional accounting, audit, corporate finance, Islamic banking, financial modelling, and more.', linkHref: 'courses.html', variant: 'gradient-teal', colSpan: 1, footerText: '50 seats · View outlines →', sortOrder: 1 },
+        { tier: 'degree', title: 'ADP Commerce', description: 'Two-year associate degree under semester system — 60 seats. Foundation for career entry or lateral progression.', linkHref: 'courses.html', variant: 'boxed', colSpan: 2, footerText: '', sortOrder: 2 },
+        { tier: 'short', title: 'CCA (6 months)', description: 'Certificate in Computer Applications offered through PBTE Lahore — introduced in 2020. Contact the college office for the latest PBTE session schedule.', linkHref: 'courses.html', variant: 'white', colSpan: 1, footerText: '', sortOrder: 0 }
+      ];
+      function makeCard(o) {
+        var href = (o.linkHref || '').trim();
+        var useLink = !!href;
+        var col = o.colSpan === 2 ? ' md:col-span-2' : '';
+        var v = o.variant || 'white';
+        var el = document.createElement(useLink ? 'a' : 'div');
+        if (useLink) el.href = href;
+        var h2 = document.createElement('h2');
+        var p = document.createElement('p');
+        p.className = 'text-sm leading-relaxed';
+        h2.textContent = o.title || '';
+        p.textContent = o.description || '';
+        if (v === 'white') {
+          el.className = 'card-lift bg-white p-6 rounded-2xl shadow border border-emerald-100 block' + col;
+          h2.className = 'font-bold text-emerald-700 text-xl mb-2';
+          p.className = 'text-gray-600 text-sm leading-relaxed';
+        } else if (v === 'gradient-emerald') {
+          el.className = 'card-lift bg-gradient-to-br from-emerald-800 to-emerald-950 text-white p-8 rounded-3xl shadow-xl block' + col;
+          h2.className = 'font-black text-2xl mb-3';
+          p.className = 'text-emerald-100/90 text-sm leading-relaxed mb-4';
+        } else if (v === 'gradient-teal') {
+          el.className = 'card-lift bg-gradient-to-br from-teal-800 to-emerald-900 text-white p-8 rounded-3xl shadow-xl block' + col;
+          h2.className = 'font-black text-2xl mb-3';
+          p.className = 'text-teal-100/90 text-sm leading-relaxed mb-4';
+        } else {
+          el.className = 'card-lift bg-emerald-50 p-8 rounded-3xl border-2 border-emerald-200 block' + col;
+          h2.className = 'font-bold text-emerald-900 text-xl mb-2';
+          p.className = 'text-gray-700 text-sm';
+        }
+        el.appendChild(h2);
+        el.appendChild(p);
+        if ((v === 'gradient-emerald' || v === 'gradient-teal') && (o.footerText || '').trim()) {
+          var s = document.createElement('span');
+          s.className = v === 'gradient-teal' ? 'text-teal-200 font-bold text-sm' : 'text-emerald-200 font-bold text-sm';
+          s.textContent = o.footerText.trim();
+          el.appendChild(s);
+        }
+        return el;
+      }
+      function emptyNote(tier) {
+        var d = document.createElement('p');
+        d.className = 'text-gray-500 text-sm col-span-full text-center py-8';
+        d.textContent = 'No programs in this section yet. Staff can add them in Admin → Programs.';
+        return d;
+      }
+      function renderOfferings(list) {
+        ['intermediate', 'degree', 'short'].forEach(function (tier) {
+          var box = document.getElementById('offerings-' + tier);
+          if (!box) return;
+          box.innerHTML = '';
+          var rows = list.filter(function (x) { return x.tier === tier; });
+          rows.sort(function (a, b) { return (a.sortOrder || 0) - (b.sortOrder || 0); });
+          if (!rows.length) box.appendChild(emptyNote(tier));
+          else rows.forEach(function (o) { box.appendChild(makeCard(o)); });
+        });
+      }
+      fetch('/api/course-offerings', { credentials: 'same-origin' })
+        .then(function (r) {
+          if (!r.ok) throw new Error('x');
+          return r.json();
+        })
+        .then(function (list) {
+          offline.classList.add('hidden');
+          offline.textContent = '';
+          renderOfferings(Array.isArray(list) ? list : []);
+        })
+        .catch(function () {
+          offline.innerHTML = 'Showing the <strong>default</strong> program list (no API). To load versions edited in <a href="admin/" class="font-semibold underline text-slate-900">Admin → Programs</a>, open the site through the college server: <code class="bg-white px-1 rounded border border-slate-300">cd server && npm start</code> then visit <code class="bg-white px-1 rounded border border-slate-300">http://localhost:3000/academics.html</code>. Full syllabi: <a href="courses.html" class="font-semibold underline text-slate-900">course outlines</a>.';
+          offline.classList.remove('hidden');
+          renderOfferings(FALLBACK_OFFERINGS);
+        });
+    })();
+    </script>
+
+    <section data-animate class="animate-on-scroll mt-16 p-8 md:p-10 bg-emerald-900 text-white rounded-3xl shadow-2xl relative overflow-hidden">
+        <div class="absolute top-0 right-0 w-64 h-64 bg-emerald-500/20 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
+        <div class="relative z-10 grid md:grid-cols-2 gap-8 items-center">
+            <div>
+                <h2 class="text-2xl md:text-3xl font-black mb-4">Official prospectus PDF</h2>
+                <p id="prospectus-note" class="text-emerald-100/90 mb-6 text-sm leading-relaxed">
+                    Download always works when you use the college server: staff can upload the real PDF in <a href="admin/" class="underline font-semibold text-white">Admin → Prospectus</a>. If no file is uploaded yet, a short placeholder PDF is offered so the link never errors.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-3">
+                    <a id="prospectus-download-btn" href="/api/prospectus/file?download=1" download="GGCC-Sahiwal-Prospectus.pdf" class="inline-flex items-center justify-center bg-white text-emerald-900 font-bold py-3 px-6 rounded-xl hover:bg-emerald-50 transition shadow-lg">Download PDF</a>
+                    <button type="button" id="prospectus-toggle-viewer" class="inline-flex items-center justify-center border-2 border-white/80 text-white font-semibold py-3 px-6 rounded-xl hover:bg-white/10 transition">Toggle viewer</button>
+                </div>
+            </div>
+            <div class="hidden md:flex justify-center opacity-40">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-40 w-40 text-emerald-400" fill="currentColor" viewBox="0 0 24 24"><path d="M13 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V9l-7-7zm0 1.5L18.5 9H13V3.5zM6 20V4h5v7h7v9H6z"/></svg>
+            </div>
+        </div>
+        <div id="pdfViewer" class="hidden mt-8 w-full h-[520px] bg-white rounded-xl shadow-inner p-2">
+            <iframe id="prospectus-iframe" title="Prospectus" src="about:blank" data-pdf-src="/api/prospectus/file" width="100%" height="100%" class="rounded-lg border-0"></iframe>
+        </div>
+    </section>
+    <script>
+    (function () {
+      var btn = document.getElementById('prospectus-toggle-viewer');
+      var panel = document.getElementById('pdfViewer');
+      var iframe = document.getElementById('prospectus-iframe');
+      if (btn && panel && iframe) {
+        btn.addEventListener('click', function () {
+          panel.classList.toggle('hidden');
+          if (!panel.classList.contains('hidden') && iframe.dataset.loaded !== '1') {
+            var src = iframe.getAttribute('data-pdf-src') || '/api/prospectus/file';
+            iframe.src = src;
+            iframe.dataset.loaded = '1';
+          }
+        });
+      }
+      fetch('/api/prospectus/meta').then(function (r) { return r.json(); }).then(function (m) {
+        var note = document.getElementById('prospectus-note');
+        if (m && m.hasOfficialFile && note) {
+          note.textContent = 'Official prospectus file is on the server. Download only when you choose, or open the viewer below. Staff can replace it anytime in Admin → Prospectus.';
+        }
+      }).catch(function () {});
+    })();
+    </script>
+
+    <div class="mt-10 flex flex-wrap gap-4 justify-center text-sm font-semibold">
+        <a href="admissions.html" class="text-emerald-700 hover:underline">Admissions &amp; seats</a>
+        <a href="faculty.html" class="text-emerald-700 hover:underline">Faculty</a>
+        <a href="about.html" class="text-emerald-700 hover:underline">History</a>
+    </div>
+</main>
+
+<footer id="footer-placeholder"></footer>
+<script src="footer.js"></script>
+<script src="assets/animate.js" defer></script>
+<style>[x-cloak]{display:none!important}</style>
+</body>
+</html>

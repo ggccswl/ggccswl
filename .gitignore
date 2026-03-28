@@ -1,0 +1,13 @@
+# Secrets (never commit)
+server/.env
+
+# Dependencies
+server/node_modules/
+
+# User uploads (keep only a placeholder if you want the folder tracked)
+uploads/*
+!uploads/keep.txt
+
+# OS / editor
+.DS_Store
+*.log
