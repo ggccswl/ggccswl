@@ -6,10 +6,11 @@ const footerTemplate = `
             <div>
                 <h3 class="text-2xl font-black text-emerald-400 mb-3 uppercase tracking-tight">GGCC Sahiwal</h3>
                 <p class="text-gray-400 text-sm leading-relaxed">
-                    Government Graduate College of Commerce, Sahiwal — quality commerce, IT, and professional education since 1964. Affiliated with BISE Sahiwal, PBTE Lahore, and GCUF Faisalabad.
+                    Government Graduate College of Commerce, Sahiwal providing commerce, IT, and professional education since 1964. Affiliated with BISE Sahiwal, PBTE Lahore, and GCUF Faisalabad.
                 </p>
                 <p class="mt-4 text-sm text-gray-500"><strong class="text-gray-300">Phone:</strong> 040-9200401</p>
-                <p class="text-sm text-gray-500"><strong class="text-gray-300">Campus:</strong> Liaquat Road, Sahiwal</p>
+                <p class="text-sm text-gray-500"><strong class="text-gray-300">Main Campus:</strong> Liaquat Road, Sahiwal</p>
+                <p class="text-sm text-gray-500"><strong class="text-gray-300">New Campus:</strong> Harappah Road, Sahiwal</p>
             </div>
             <div>
                 <h4 class="text-lg font-bold mb-4 border-b border-gray-700 pb-2 text-white">College</h4>
@@ -50,7 +51,7 @@ const footerTemplate = `
             </div>
         </div>
         <div class="border-t border-gray-800 pt-8 flex flex-col sm:flex-row items-center justify-center gap-3 text-xs text-gray-500">
-            <p>&copy; 2026 Government Graduate College of Commerce, Sahiwal. Affiliated with GCUF &amp; BISE Sahiwal.</p>
+            <p>&copy; 2026 Government Graduate College of Commerce, Sahiwal. Affiliated with GCUF, PBTE Lahore &amp; BISE Sahiwal.</p>
             <a href="admin/" class="text-emerald-500 hover:text-emerald-400 font-semibold">Staff admin</a>
         </div>
     </div>
